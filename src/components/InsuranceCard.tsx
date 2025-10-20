@@ -29,7 +29,7 @@ const InsuranceCard: React.FC<InsuranceCardProps> = ({ imgSrc, title, price }) =
           alt={title}
           style={{width:68}}
         />
-        <p style={{ fontSize: "10px", margin: 0, }}>{title}</p>
+        <p style={{ fontSize: "15px", margin: 0, }}>{title}</p>
       </div>
       <div style={{ display: "flex", flexDirection:"row", justifyContent:"center", alignItems: "center", gap: "4px" }}>
         <p style={{fontSize:15}}>월</p>

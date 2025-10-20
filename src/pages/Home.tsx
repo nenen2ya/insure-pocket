@@ -48,7 +48,7 @@ const Home: React.FC = () => {
           </Link>
         </SwiperSlide>
         <SwiperSlide>
-          <Link to="/Report">
+          <Link to="/Diagnose">
             <img src={diagnose} alt="slide3" style={{ width: 800, aspectRatio: "5 / 3", objectFit: "cover", borderRadius:30 }} />
           </Link>
         </SwiperSlide>

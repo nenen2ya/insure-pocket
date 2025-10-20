@@ -1,32 +1,54 @@
 import React, { useState } from "react";
 import Button from "../components/Button";
 import insurance from "../assets/img/insurance.png";
+import hanhwa from "../assets/img/company/hanhwa.png";
+import metlife from "../assets/img/company/metlife.png";
+import samsung from "../assets/img/company/samsung.png";
 import { useNavigate } from "react-router-dom";
 import Option from "../components/Option";
+import InsuranceCard from "../components/InsuranceCard";
 
 const Diagnose: React.FC = () => {
     const navigate = useNavigate();
-  const username = "KDA";
-  const [step, setStep] = useState(0); // 0=intro, 1~4=질문 단계, 5=완료
+  const username = "윤시윤";
+  const nums = 3;
+  const imgsrcs = [hanhwa, metlife, samsung];
+  const titles = ["한화생명 보험", "메트라이프 보험", "삼성생명 보험"];
+  const prices = [27500, 10000, 32000];
+  const [step, setStep] = useState(0); // 0=intro, 0.5=불러오기 완료 안내, 1~4=질문 단계, 5=완료
 
   // 질문 리스트
   const questions = [
     {
-      question: "음주 (1회 음주 시, 소주 1병 기준)",
-      options: ["주 2회 미만", "주2회 이상"],
+      category: "음주",
+      question: "최근 한 달 동안 주에 음주량이 어떻게 되나요?",
+      options: ["주 1병 미만", "주 1-3병", "주 4병 이상"],
     },
     {
+      category: "흡연",
       question: "흡연",
       options: ["비흡연자", "하루 10개비 이하", "하루 10개비 초과"],
     },
     {
+      category: "운전",
       question: "운전",
       options: ["매주 3시간 미만", "매주 3시간 이상"],
     },
     {
+      category: "직업",
       question: "직업군",
-      options: ["저위험군", "고위험군"],
-    },
+      options: [
+          "전문가 및 관련 종사자",
+          "사무 종사자 및 관리자",
+          "서비스 종사자",
+          "판매 종사자",
+          "농림어업 숙련 종사자",
+          "기능원 및 관련 기능 종사자",
+          "장치·기계 조작 및 조립 종사자",
+          "단순 노무 종사자",
+          "군인"
+        ]
+      }
   ];
 
   // 질문 선택 시 다음 단계로 이동
@@ -67,7 +89,7 @@ const Diagnose: React.FC = () => {
                 lineHeight: 1,
               }}
             >
-              <p style={{ fontSize: 48, fontWeight: "bold", margin: 0 }}>
+              <p style={{ fontSize: 48, fontWeight: "bold", fontStyle: "normal", margin: 0}}>
                 {username}님
               </p>
               <p style={{ fontSize: 40, fontWeight: "bold", marginBottom: 0 }}>
@@ -96,20 +118,96 @@ const Diagnose: React.FC = () => {
                 를 불러올까요?
               </p>
             </div>
-            <img src={insurance} style={{ marginTop: 30 }} alt="보험 이미지" />
+            <img 
+            src={insurance} 
+            style={{ 
+              width: 360, 
+              height: 186, 
+              marginTop: 30,
+              alignSelf: "center"
+            }} 
+            alt="보험 이미지" 
+            />
           </div>
 
-          <Button text="불러오기" onClick={() => setStep(1)} />
+          <Button text="불러오기" onClick={() => setStep(0.5)} />
         </>
       )}
 
-        {/* 질문 단계 */}
-      {step > 0 && step <= questions.length && (
+      {/*불러오기 완료*/}
+      {step === 0.5 && (
         <>
-            <div style={{ width: "100%", marginBottom: 32 }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              gap: 32,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "baseline",
+                lineHeight: 1,
+              }}
+            >
+              <p style={{ fontSize: 48, fontWeight: "bold", fontStyle: "normal", margin: 0}}>
+                {username}님
+              </p>
+              <p style={{ fontSize: 40, fontWeight: "bold", marginBottom: 0 }}>
+                의
+              </p>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                lineHeight: 1,
+              }}
+            >
+              <p
+                style={{
+                  fontSize: 48,
+                  fontWeight: "bold",
+                  color: "#2563EB",
+                  margin: 0,
+                }}
+              >
+                가입된 보험 {nums}개
+              </p>
+              <p style={{ fontSize: 40, fontWeight: "bold", margin: 0 }}>
+                를 불러왔어요!
+              </p>
+            </div>
+            <div style={{
+              display: "flex",
+              flexDirection: "column",
+              alignSelf: "center",
+              gap: 5
+            }}>
+              <InsuranceCard imgSrc ={imgsrcs[0]} title={titles[0]} price={prices[0]} width="400px" height="84px">
+              </InsuranceCard>
+              <InsuranceCard imgSrc ={imgsrcs[1]} title={titles[1]} price={prices[1]} width="400px" height="84px">
+              </InsuranceCard>
+              <InsuranceCard imgSrc ={imgsrcs[2]} title={titles[2]} price={prices[2]} width="400px" height="84px">
+              </InsuranceCard>
+            </div>
+          </div>
+          <Button text="추가 진단하기" onClick={() => setStep(1)} />
+        </>
+      )}
+
+
+        {/* 질문 단계 */}
+      {step > 0.5 && step <= questions.length && (
+        <>
+            <div style={{ width: "75%", marginBottom: 20 }}>
 
         {/* 진행 바 */}
-      <div style={{ textAlign: "left", fontSize: 14, marginBottom: 4 }}>
+      <div style={{ textAlign: "left", fontSize: 15, marginBottom: 4 }}>
         {step}/{questions.length}
       </div>
 
@@ -136,10 +234,42 @@ const Diagnose: React.FC = () => {
 
           { /* 질문*/}
           <div style={{ width: 900, display:"flex", flexDirection:"column", alignItems:"flex-start", padding:20, gap:20 }}>
-            <h3>
+            <div style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 20
+            }}>
+            <h3 
+            style = {{
+              borderRadius: "100%",
+              backgroundColor: "#2563EB",
+              width: 45,
+              height: 45,
+              padding: 10,
+              fontSize:30,
+              color: "white",
+              textAlign:"center"
+            }}>
               Q{step}
             </h3>
-            <p>{questions[step - 1].question}</p>
+            {/* 카테고리+질문 */}
+            <div style={{
+              display:"flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              gap: 0
+            }}>
+            <p style={{fontSize: 20, color: "#2563EB", margin: 0}}>
+              {questions[step -1].category}
+            </p>
+            <p style = {{
+              fontSize: 30, fontWeight: "bold", marginTop: 5, marginBottom: 0
+            }}>
+              {questions[step - 1].question}</p>
+            </div>
+            </div>
+            {/* 선택 옵션 */}
             {questions[step - 1].options.map((option, idx) => (
               <Option
                 key={idx}
@@ -151,9 +281,10 @@ const Diagnose: React.FC = () => {
         </>
       )}
 
+      {/* 완료 화면 */}
       {step === 5 && (
         <div>
-          <h2>진단이 완료되었습니다</h2>
+          <h2 style= {{fontSize:35}}>진단이 완료되었습니다</h2>
           <p>결과를 기반으로 맞춤 보험 상품을 추천해드릴게요.</p>
           <Button text="결과 보기" onClick={() => navigate("/report")} />
           </div>
