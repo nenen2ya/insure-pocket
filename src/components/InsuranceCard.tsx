@@ -3,7 +3,7 @@ import React from "react";
 interface InsuranceCardProps {
   imgSrc: string; // 이미지 경로
   title: string;  // 상품명
-  price: number;  // 가격 (예: "월 27,500원")
+  price: string;  // 가격 (예: "월 27,500원")
   width?: string; // 카드 너비
   height?: string; // 카드 높이
 }

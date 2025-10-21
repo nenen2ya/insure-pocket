@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Auth from "./pages/Auth";
 import Report from "./pages/Report";
+import SubReport from "./pages/SubReport";
 import Favorites from "./pages/Favorites";
 import Insurance from "./pages/Insurance";
 import Diagnose from "./pages/Diagnose";
@@ -19,6 +20,7 @@ const App: React.FC = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/report" element={<Report />} />
+        <Route path="/subreport" element={<SubReport />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/insurance" element={<Insurance />} />

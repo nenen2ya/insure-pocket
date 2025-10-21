@@ -37,6 +37,7 @@ const TopBanner: React.FC = () => {
         display: "flex",
         alignItems: "center",
         gap: "120px",
+        whiteSpace: "nowrap"
       }}>
         <Link to="/" style={linkStyle}>
           보험료비교

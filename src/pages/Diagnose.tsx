@@ -14,7 +14,7 @@ const Diagnose: React.FC = () => {
   const nums = 3;
   const imgsrcs = [hanhwa, metlife, samsung];
   const titles = ["한화생명 보험", "메트라이프 보험", "삼성생명 보험"];
-  const prices = [27500, 10000, 32000];
+  const prices = ["27,500", "10,000" , "32,000"];
   const [step, setStep] = useState(0); // 0=intro, 0.5=불러오기 완료 안내, 1~4=질문 단계, 5=완료
 
   // 질문 리스트
