@@ -4,6 +4,7 @@ interface ReportCardProps {
   title: string;              // 파란색 제목 텍스트
   width?: string;             // 카드 너비
   height?: string;            // 카드 전체 높이
+  barheight?:string;          // 타이틀 바 높이
   children?: React.ReactNode; // 내부 컨텐츠
 }
 
@@ -11,6 +12,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
   title,
   width = "480px",
   height = "400px",
+  barheight = "60px",
   children,
 }) => {
   return (
@@ -34,7 +36,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
           fontSize: 25,
           fontWeight: "bold",
           padding: "12px 20px",
-          height: 60,                // 타이틀바 높이 고정
+          height: barheight,                // 타이틀바 높이 고정
           display: "flex",
           alignItems: "center",
         }}

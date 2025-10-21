@@ -49,7 +49,7 @@ const TopBanner: React.FC = () => {
           진단하기
         </Link>
       </nav>
-        <Link to="/login" style={linkStyle}>
+        <Link to="/mypage" style={linkStyle}>
           마이페이지
         </Link>
     </header>

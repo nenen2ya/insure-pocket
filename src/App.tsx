@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
+import Mypage from "./pages/Mypage";
 import Signup from "./pages/Signup";
 import Auth from "./pages/Auth";
 import Report from "./pages/Report";
@@ -9,6 +9,9 @@ import Favorites from "./pages/Favorites";
 import Insurance from "./pages/Insurance";
 import Diagnose from "./pages/Diagnose";
 import TopBanner from "./components/TopBanner";
+import Myinsur from "./pages/Myinsur";
+import Inmypocket from "./pages/Inmypocket";
+
 import "./App.css"
 
 const App: React.FC = () => {
@@ -17,7 +20,7 @@ const App: React.FC = () => {
       <TopBanner />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/mypage" element={<Mypage />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/report" element={<Report />} />
         <Route path="/subreport" element={<SubReport />} />
@@ -25,6 +28,8 @@ const App: React.FC = () => {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/insurance" element={<Insurance />} />
         <Route path="/diagnose" element={<Diagnose />} />
+        <Route path="/myinsur" element={<Myinsur />} />
+        <Route path="/inmypocket" element={<Inmypocket />} />
       </Routes>
     </div>
   );
