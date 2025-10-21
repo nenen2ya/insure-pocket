@@ -12,6 +12,7 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = ({ text, color, backgroundColor, width, height, onClick }) => {
   return (
     <button
+      type="button"
       onClick={onClick}
       style={{
         padding: "10px 20px",
@@ -25,6 +26,7 @@ const Button: React.FC<ButtonProps> = ({ text, color, backgroundColor, width, he
         margin: "10px",
         width: width || 230,
         height: height || 74,
+        outline:"none"
       }}
     >
       {text}
