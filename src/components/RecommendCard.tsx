@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import vector from "../assets/img/vector.png";
+import Button from "../components/Button";
+import { Link } from "react-router-dom";
 
 function MyToggle({rotated = false}:{rotated?:boolean}) {
     return (
@@ -21,6 +23,7 @@ interface RecommendCardProps {
   imgSrc: string; // 이미지 경로
   title: string;  // 상품명
   cancerKeywords: string[]; //세부암 키워드
+  href: string; //보험사 링크
   width?: string; // 카드 너비
   height?: string; // 카드 높이
 }
@@ -28,7 +31,8 @@ interface RecommendCardProps {
 const RecommendCard: React.FC<RecommendCardProps> = ({ 
     imgSrc, 
     title, 
-    cancerKeywords
+    cancerKeywords,
+    href
 }) => {
     const [open, setOpen] = useState(false); 
     const toggle = () => setOpen(!open); //open -> !open으로 바꿈
@@ -151,21 +155,50 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
                     width:"100%",
                     height:"100%",
                     display:"flex",
-                    justifyContent:"space-around"
+                    flexDirection:"column",
+                    gap:"20px"
                 }}
                 >
-                    {/* 키워드랑 써머리 3개 묶음 */}
-                    {[
-                    {keyword: "keyword1", summary:"summary1"}, 
-                    {keyword: "keyword2", summary:"summary2"}, 
-                    {keyword: "keyword3", summary:"summary3"}
-                    ].map((content,i) => (
-                        <div key={i}>
-                            <h2>{content.keyword}</h2>
-                            <h3>{content.summary}</h3>
-                        </div>
-                    ))
-                    }
+                    <div style={{
+                        display:"flex",
+                        justifyContent:"space-around"
+                    }}>
+                        {/* 키워드랑 써머리 3개 묶음 */}
+                        {[
+                        {keyword: "keyword1", summary:"summary1"}, 
+                        {keyword: "keyword2", summary:"summary2"}, 
+                        {keyword: "keyword3", summary:"summary3"}
+                        ].map((content,i) => (
+                            <div key={i}>
+                                <h2>{content.keyword}</h2>
+                                <h3>{content.summary}</h3>
+                            </div>
+                        ))
+                        }
+                    </div>
+                    <div style={{
+                        display:"flex",
+                        flexDirection:"row",
+                        justifyContent:"center"
+                    }}>
+                        <form method="post">
+                            <Button 
+                            onClick={()=>window.open("/inmypocket", "_blank")}
+                            text="포켓에 담기" 
+                            backgroundColor="#DB2777"
+                            width="200px" 
+                            height="70px"/>
+                        </form>
+                        <form>
+                        <Button
+                        onClick={()=>window.open(href, "_blank")}
+                        text="가입하기" 
+                        backgroundColor="#1E3A8A" 
+                        width="200px"
+                        height="70px"
+                        />
+                        </form>
+                    </div>
                 </div>
             )}
         </div>           

@@ -16,6 +16,7 @@ const Report: React.FC = () => {
   const imgsrcs = [hanhwa, metlife, samsung];
   const titles = ["한화생명 보험", "메트라이프 보험", "삼성생명 보험"];
   const prices = ["27,500", "10,000", "32,000"];
+  const types = ['암', '뇌', '심장','실손','치아','사망','장애','간병','치매']
 
   return (
     <div style={{ textAlign: "center", marginTop: "100px" }}>
@@ -96,11 +97,11 @@ const Report: React.FC = () => {
           height: "65%",
           gap: "40px"
         }}>
-          <div style={{
+          {/* <div style={{
             display:"flex",
             flexDirection:"column"
-          }}>
-            <button onClick={() => navigate("/subreport")} 
+          }}> */}
+            {/* <button onClick={() => navigate("/subreport")} 
             style={{ 
               backgroundColor:"transparent",
               border: "none",
@@ -108,11 +109,12 @@ const Report: React.FC = () => {
               fontWeight: "normal",
               padding:0
 
-            }}><SummaryGraph type="암"></SummaryGraph></button>
-            <SummaryGraph type="실손"></SummaryGraph>
-            <SummaryGraph type="장애"></SummaryGraph>
+            }}> */}
+              <SummaryGraph type="암"></SummaryGraph>
+            {/* <SummaryGraph type="실손"></SummaryGraph>
+            <SummaryGraph type="장애"></SummaryGraph> */}
           </div>
-          <div style={{
+          {/* <div style={{
             display:"flex",
             flexDirection:"column"
           }}>
@@ -127,8 +129,8 @@ const Report: React.FC = () => {
             <SummaryGraph type="심장"></SummaryGraph>
             <SummaryGraph type="사망"></SummaryGraph>
             <SummaryGraph type="치매"></SummaryGraph>
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
       </ReportCard>
       <ReportCard title="종합 코멘트" width= "980px" height="200px">
         <p style={{
