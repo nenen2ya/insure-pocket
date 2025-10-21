@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import ReportCard from "../components/ReportCard";
+import PocketBar from '../components/PocketBar';
 
 
 const Inmypocket:React.FC = () => {
@@ -22,7 +23,7 @@ const Inmypocket:React.FC = () => {
                 display:"flex",
                 flexDirection:"row",
                 alignItems:"center",
-                width:"976px",
+                width:"977px",
                 height:"61px",
                 position:"relative"
             }}>
@@ -89,26 +90,34 @@ const Inmypocket:React.FC = () => {
 
             <div style={{marginTop:"78px"}}>
                 <ReportCard title={`총 ${insurnum}개`} width="977px" height="auto">
-                    <div>
-                        <div> //보험사
-                            <p>{company[0]}</p>
-                        </div>
-
-                        <div> //보장영역
-                            <p>{type[0]}</p>
+                    <div style={{overflow:"hidden", width:"100%"}}>
+                        <div style={{
+                            display:"flex",
+                            justifyContent:"row",
+                            width:"200%",
+                            transform: activeTab === "보험사" ? "translateX(0%)" : "translateX(-50%)",
+                            transition:"transform 0.3s ease-in-out",
+                        }}>
+                            {/*보험사*/}
+                            <div style ={{
+                                width:"50%",
+                                flexShrink:0,
+                            }}>
+                                <PocketBar company={company[0]}></PocketBar>
+                            </div>
+                            {/*보장영역*/}
+                            <div style ={{
+                                width:"50%",
+                                flexShrink:0
+                            }}>
+                                <p>{type[0]}</p>
+                            </div>
                         </div>
                     </div>
-
-
-
                 </ReportCard>
             </div>
-        </div>
-
-
-        
+        </div>      
     );
-
 }; 
 
 export default Inmypocket
