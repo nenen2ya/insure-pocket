@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import profileImg from "../assets/img/profile.jpg";
+import vectorwhite from "../assets/img/vectorwhite.png"
+import { useNavigate } from "react-router-dom";
 
 
 const MpCard = styled.div`
@@ -21,18 +23,27 @@ const CardBar = styled.div`
   font-weight: 700;
   padding: 0px 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: sflex-start;
   align-items: center;
+  gap: 10px
 `;
 
 const More = styled.button`
   background: none;
   border: none;
+  outline: none;
   color: white;
   cursor: pointer;
   font-weight: 400;
+  display:inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
+  line-height: 1;
+  margin-left: auto;
+
+  &:focus{
+  outline: none;
+  border: none;}
 
   &:hover{
   transform: scale(1.10);
@@ -48,6 +59,7 @@ const CardContent = styled.div`
 `;
 
 const Mypage: React.FC = () => {
+  const navigate = useNavigate();
   const username = "윤시윤";
 
   return (
@@ -68,7 +80,6 @@ const Mypage: React.FC = () => {
         style = {{
           display:"flex",
           gap:"33px",
-          // height:'100%',
           fontSize: "15px"
         }}>
         
@@ -124,7 +135,17 @@ const Mypage: React.FC = () => {
           <MpCard>
             <CardBar>
               <span>내 보험</span>
-              <More>더보기 &gt;</More>
+              <More onClick={() => navigate("/myinsur")}>
+                더보기
+                <img
+                  src={vectorwhite}
+                  alt=" "
+                  style={{
+                    width:"18px",
+                    height:"18px",
+                    position:"relative",
+                  }}/>
+              </More>
             </CardBar>
             <CardContent>가입한 보험 상품을 확인할 수 있습니다.</CardContent>
           </MpCard>
@@ -132,7 +153,18 @@ const Mypage: React.FC = () => {
           <MpCard>
             <CardBar>
               <span>내 진단 리포트</span>
-              <More>더보기 &gt;</More>
+              <More onClick={() => navigate("/report")}>
+                더보기
+                <img
+                  src={vectorwhite}
+                  alt=" "
+                  style={{
+                    width:"18px",
+                    height:"18px",
+                    position:"relative",
+                    top:"1px"
+                }}/>
+              </More>
             </CardBar>
             <CardContent>내 보험 진단 결과 리포트를 언제든 다시 조회할 수 있습니다.</CardContent>
           </MpCard>
@@ -140,7 +172,18 @@ const Mypage: React.FC = () => {
           <MpCard>
             <CardBar>
               <span>인마이포켓</span>
-              <More>더보기 &gt;</More>
+              <More onClick={() => navigate("/inmypocket")}>
+                더보기
+                <img
+                  src={vectorwhite}
+                  alt=" "
+                  style={{
+                    width:"18px",
+                    height:"18px",
+                    position:"relative",
+                    top:"1px"
+                }}/>
+              </More>
             </CardBar>
             <CardContent>내가 담은 보험 상품을 한 눈에 볼 수 있습니다.</CardContent>
           </MpCard>
@@ -148,7 +191,18 @@ const Mypage: React.FC = () => {
           <MpCard>
             <CardBar>
               <span>계정설정</span>
-              <More>더보기 &gt;</More>
+              <More>
+                더보기
+                <img
+                  src={vectorwhite}
+                  alt=" "
+                  style={{
+                    width:"18px",
+                    height:"18px",
+                    position:"relative",
+                    top:"1px"
+                }}/>
+              </More>
             </CardBar>
             <CardContent>계정을 설정하는 칸입니다.</CardContent>
           </MpCard>

@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import vector from "../assets/img/vector.png";
+import check from "../assets/img/check.png"
 
 function MyToggle({rotated = false}:{rotated?:boolean}) {
     return (
@@ -17,6 +18,25 @@ function MyToggle({rotated = false}:{rotated?:boolean}) {
     );
 }
 
+function MyCheck({checked=false}: {checked?:boolean}) {
+    return(
+        <div style={{
+            width:"41px",
+            height:"41px",
+            backgroundColor: checked ? "#2563EB" : "#BFDBFE",
+            maskImage:`url(${check})`,
+            WebkitMaskImage:`url(${check})`,
+            maskRepeat:"no-repeat",
+            maskPosition:"center",
+            maskSize:"contain",
+            transition:"background-color 0.25s ease",
+            cursor:"pointer"
+            }}
+        />
+    );
+}
+
+
 interface PocketBarProps {
     company: string; //회사이름
     width?: string;
@@ -29,35 +49,65 @@ const PocketBar: React.FC<PocketBarProps> = ({
     height="auto"
 }) => {
     const [open, setOpen] = useState(false); 
+    const [checked, setChecked] = useState(false);
+
     const toggle = () => setOpen(!open);
+    const toggleCheck = () => setChecked(!checked)
 
     return(
-        <div style={{
-            width,
-            height,
-            background:"white",
-            boxSizing:"border-box",
-            border: "2px #000000 solid",
-            borderBottom: "2px #EFF6FF solid",
-            display:"flex",
-            alignItems:"center",
-            justifyContent:"space-between",
-        }}>
-            <span style={{fontSize:"25px", fontWeight:"500", color:"#000000"}}>{company}</span>
-
-            <button onClick={toggle} style={{
-                background:"none",
-                border:"none",
-                cursor:"pointer",
-                width:"20px",
-                height:"20px"
+        <div style={{margin:"0 -20px"}}>
+            <div style={{
+                width,
+                height,
+                boxSizing:"border-box",
+                backgroundColor: "white",
+                borderBottom:"2px solid #eff6ff",
+                display:"flex",
+                alignItems:"center",
+                justifyContent:"space-between",
+                padding:"12px 44px",
+                position:"relative"
             }}>
-                <MyToggle rotated={open}/>
-            </button>
-
-            <div></div>
+                <div style={{
+                    display:"flex",
+                    alignItems:"center",
+                    gap:"10px",
+                }}>
+                    <div onClick={toggleCheck}>
+                        <MyCheck checked={checked} />
+                    </div>
+                    <div style={{position:"relative", top:"-2px"}}>
+                        <span style={{fontSize:"23px", fontWeight:"500", color:"#000000",top:"-1px"}}>{company}</span>
+                    </div>
+                </div>
+                    <button 
+                        type="button"
+                        onClick = {toggle}
+                        style={{
+                        display:"inline-flex",
+                        alignItems: "center",
+                        backgroundColor: "transparent",
+                        gap: 5,
+                        height: "30px",
+                        width: "fit-content",
+                        margin: 3,
+                        padding:0,
+                        whiteSpace: "nowrap",
+                        outline:"none",
+                        border:"none",
+                        cursor:"pointer",
+                    }}>
+                        <p style={{fontSize: 20, color:"#2563EB", margin:0}}>
+                            {open ? "닫기":"더보기"}
+                        </p>
+                        <div style={{width:18, height:18}}>
+                            <MyToggle rotated={open}/>    
+                        </div>
+                    </button>
+                </div>
         </div>
     );
 };
 
 export default PocketBar
+

@@ -1,8 +1,8 @@
 import React from "react";
 import ReportCard from "../components/ReportCard";
-import InsuranceCard from "../components/InsuranceCard";
 import hanhwa from "../assets/img/company/hanhwa.png"
 import metlife from "../assets/img/company/metlife.png"
+import MyPageCard from "../components/MyPageCard";
 
 const Myinsur:React.FC = () => {
 
@@ -18,7 +18,8 @@ const Myinsur:React.FC = () => {
             flexDirection:"column",
             justifyContent:"flex-start",
             alignItems:"flex-start",
-            marginTop:"-150px"
+            paddingTop:"100px",
+            boxSizing:"border-box"
         }}>
             <div style={{
                 display:"flex",
@@ -39,18 +40,27 @@ const Myinsur:React.FC = () => {
                         marginBottom:"15px",
                         gap:"20px"
                     }}>
-                        <InsuranceCard
-                        imgSrc={imgsrcs[0]} title={product[0]} price={prices[0]} width="918px" height="109px"> 
-                        </InsuranceCard>
-                        <InsuranceCard
-                        imgSrc={imgsrcs[1]} title={product[1]} price={prices[1]} width="918px" height="109px"> 
-                        </InsuranceCard>
-
+                        <MyPageCard
+                            imgSrc={imgsrcs[0]} title={product[0]} price={prices[0].toLocaleString()} width="918px" height="109px"> 
+                        </MyPageCard>
+                        <MyPageCard
+                            imgSrc={imgsrcs[1]} title={product[1]} price={prices[1].toLocaleString()} width="918px" height="109px"> 
+                        </MyPageCard>
+                        <MyPageCard
+                            imgSrc={imgsrcs[0]} title={product[0]} price={prices[0].toLocaleString()} width="918px" height="109px"> 
+                        </MyPageCard>
+                        <MyPageCard
+                            imgSrc={imgsrcs[1]} title={product[1]} price={prices[1].toLocaleString()} width="918px" height="109px"> 
+                        </MyPageCard>
+                        <MyPageCard
+                            imgSrc={imgsrcs[0]} title={product[0]} price={prices[0].toLocaleString()} width="918px" height="109px"> 
+                        </MyPageCard>
+                        <MyPageCard
+                            imgSrc={imgsrcs[1]} title={product[1]} price={prices[1].toLocaleString()} width="918px" height="109px"> 
+                        </MyPageCard>
                     </div>
                 </ReportCard>
             </div>
-
-
         </div>
     );
 
