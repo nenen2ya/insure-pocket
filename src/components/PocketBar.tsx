@@ -116,9 +116,16 @@ const PocketBar: React.FC<PocketBarProps> = ({
                     overflow: "hidden",
                     opacity: open ? 1 : 0,
                     transition: "all 0.4s ease",
-                    paddingTop: open ? "20px" : "0px"
+                    paddingTop: open ? "20px" : "0px",
+                    paddingBottom: open ? "20px" : "0px"
                 }}>
-                    {children}
+                    <div style={{
+                        display:"flex",
+                        flexDirection:"column",
+                        gap:"20px"
+                    }}>
+                        {children}
+                    </div>
                 </div>
         </div>
     );

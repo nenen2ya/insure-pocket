@@ -32,8 +32,8 @@ const Inmypocket:React.FC = () => {
     return(
         <div>
             <div style={{
-                position:"sticky",
-                top:0,
+                // position:"relative",
+                top:"80px",
                 backgroundColor:"#fff",
                 zIndex:10,
                 paddingBottom:"20px"
