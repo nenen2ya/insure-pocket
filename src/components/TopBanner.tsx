@@ -29,8 +29,9 @@ const TopBanner: React.FC = () => {
 
   return (
     <header style={bannerStyle}>
-      <Link to="/" style={{ display: "inline-block" }}>
-        <img src={logo} alt="로고" style={{ width: "120px" }} />
+      <Link to="/" style={{ display: "flex",  }}>
+        <h2 style={{color:"#1E3A8A", fontWeight:"700px", display:"flex", alignSelf:"center"}}>인슈어포켓</h2>
+        <img src={logo} alt="로고" style={{ width: "80px" }} />
       </Link>
       
       <nav style={{
@@ -45,11 +46,32 @@ const TopBanner: React.FC = () => {
         <Link to="/" style={linkStyle}>
           전문가 찾기
         </Link>
-        <Link to="/diagnose" style={linkStyle}>
+        <Link to="/diagnose" style={{
+          color:"#DB2777",
+          fontWeight:"600",
+          fontSize:"25px"
+        
+          }}>
           진단하기
         </Link>
+        <Link to="/" style={linkStyle}>
+          보상!키움!
+        </Link>
+        <Link to="/" style={linkStyle}>
+          인재채용
+        </Link>
       </nav>
-        <Link to="/mypage" style={linkStyle}>
+        <Link to="/mypage" style={{
+          backgroundColor:"#2563EB",
+          color:"white",
+          paddingRight:20,
+          paddingLeft:20,
+          paddingTop:12,
+          paddingBottom:12,
+          borderRadius:30,
+          fontWeight:"400",
+          fontSize:"18px"
+        }}>
           마이페이지
         </Link>
     </header>
