@@ -15,7 +15,7 @@ interface SummaryGraphProps {
 const SummaryGraph: React.FC<SummaryGraphProps> = ({type}) => {
     return (
         <Link 
-        to = "/subreport"
+        to = {type==='암'? "/subreport":"#"}
         style={{
             width:"fit-content",
             display:"inline-flex",

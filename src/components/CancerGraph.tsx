@@ -6,7 +6,6 @@ interface CancerGraphProps {
 
 const CancerGraph: React.FC<CancerGraphProps> = ({ subtype }) => {
     return (
-        // 최상위 컨테이너: 이게 실제 행의 높이를 “보장”합니다.
         <div style={{ width: 918, height: 70, position: 'relative', margin: '8px 0', overflow: 'visible'}}>
         {/* 바 영역 박스 */}
         <div style={{ width: 745.49, height: 70, left: 172.51, top: 0, position: 'absolute' }}>
@@ -24,7 +23,7 @@ const CancerGraph: React.FC<CancerGraphProps> = ({ subtype }) => {
             />
         </div>
 
-        {/* 값/라벨/진행바 */}
+        {/* 값/라벨/바 */}
         <div style={{ width: 359.4, height: 43.51, left: 488.78, top: 17.03, position: 'absolute' }}>
             <div
             style={{
@@ -34,7 +33,6 @@ const CancerGraph: React.FC<CancerGraphProps> = ({ subtype }) => {
                 top: 30.82,
                 position: 'absolute',
                 textAlign: 'center',
-                // color: '#5F8CA0',
                 fontSize: 10,
                 fontWeight: 400,
                 wordWrap: 'break-word',
@@ -50,7 +48,6 @@ const CancerGraph: React.FC<CancerGraphProps> = ({ subtype }) => {
                 top: 30.82,
                 position: 'absolute',
                 textAlign: 'center',
-                // color: '#5F8CA0',
                 fontSize: 10,
                 fontWeight: 400,
                 wordWrap: 'break-word',
@@ -58,6 +55,18 @@ const CancerGraph: React.FC<CancerGraphProps> = ({ subtype }) => {
             >
             내 보장금액
             </div>
+            {/* y축 */}
+            <div style={{
+            position: "absolute",
+            width: 3, 
+            height: 40, 
+            top: "50%",
+            left: "50%",
+            transform:"translate(-50%,-50%)",
+            backgroundColor:"#DFE8EC"
+            }}
+            ></div>
+            {/* 그래프 */}
             <div
             style={{
                 width: 314.07,
@@ -83,7 +92,7 @@ const CancerGraph: React.FC<CancerGraphProps> = ({ subtype }) => {
             position: 'absolute',
             background: 'white',
             borderRadius: 30,
-            border: '1px #2563EB solid', // outline 대신 border 권장
+            border: '1px #2563EB solid', 
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
