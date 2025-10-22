@@ -36,17 +36,18 @@ function MyCheck({checked=false}: {checked?:boolean}) {
     );
 }
 
-
 interface PocketBarProps {
-    company: string; //회사이름
+    std: string; //회사이름 혹은 질병 대분류
     width?: string;
     height?: string;
+    children?: React.ReactNode;
 }
 
 const PocketBar: React.FC<PocketBarProps> = ({
-    company,
+    std,
     width="100%",
-    height="auto"
+    height="100%",
+    children
 }) => {
     const [open, setOpen] = useState(false); 
     const [checked, setChecked] = useState(false);
@@ -55,17 +56,20 @@ const PocketBar: React.FC<PocketBarProps> = ({
     const toggleCheck = () => setChecked(!checked)
 
     return(
-        <div style={{margin:"0 -20px"}}>
+        <div style={{
+            position:"relative",
+            width,
+            height,
+            boxSizing:"border-box",
+            backgroundColor: "white",
+            borderBottom:"2px solid #eff6ff",
+            padding:"12px 44px",
+            }}>
             <div style={{
-                width,
-                height,
-                boxSizing:"border-box",
-                backgroundColor: "white",
-                borderBottom:"2px solid #eff6ff",
                 display:"flex",
                 alignItems:"center",
                 justifyContent:"space-between",
-                padding:"12px 44px",
+
                 position:"relative"
             }}>
                 <div style={{
@@ -77,7 +81,7 @@ const PocketBar: React.FC<PocketBarProps> = ({
                         <MyCheck checked={checked} />
                     </div>
                     <div style={{position:"relative", top:"-2px"}}>
-                        <span style={{fontSize:"23px", fontWeight:"500", color:"#000000",top:"-1px"}}>{company}</span>
+                        <span style={{fontSize:"23px", fontWeight:"500", color:"#000000",top:"-1px"}}>{std}</span>
                     </div>
                 </div>
                     <button 
@@ -104,6 +108,17 @@ const PocketBar: React.FC<PocketBarProps> = ({
                             <MyToggle rotated={open}/>    
                         </div>
                     </button>
+                </div>
+
+
+                <div style={{
+                    maxHeight: open ? "1000px" : "0px",
+                    overflow: "hidden",
+                    opacity: open ? 1 : 0,
+                    transition: "all 0.4s ease",
+                    paddingTop: open ? "20px" : "0px"
+                }}>
+                    {children}
                 </div>
         </div>
     );

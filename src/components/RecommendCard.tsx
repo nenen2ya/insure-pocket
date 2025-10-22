@@ -32,7 +32,8 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
     imgSrc, 
     title, 
     cancerKeywords,
-    href
+    href,
+    width=900
 }) => {
     const [open, setOpen] = useState(false); 
     const toggle = () => setOpen(!open); //open -> !open으로 바꿈
@@ -40,7 +41,7 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
     return (
         <div
         style={{
-            width: 900,
+            width,
             minHeight: 84,
             border: "3px solid #BFDBFE",
             borderRadius: "30px",
