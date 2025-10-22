@@ -61,7 +61,7 @@ const CancerGraph: React.FC<CancerGraphProps> = ({ subtype }) => {
             width: 3, 
             height: 40, 
             top: "50%",
-            left: "50%",
+            left: "12%",
             transform:"translate(-50%,-50%)",
             backgroundColor:"#DFE8EC"
             }}

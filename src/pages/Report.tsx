@@ -100,9 +100,9 @@ const Report: React.FC = () => {
             style={{
               position: "relative",
               width: "100%",
-              height: 180, // ✅ 캔버스 높이 고정
+              height: 180, 
               display: "flex",
-              alignItems: "flex-end", // ✅ 항상 하단 기준 정렬
+              alignItems: "flex-end",
               justifyContent: "center",
               gap: 40,
             }}
@@ -136,7 +136,7 @@ const Report: React.FC = () => {
               <div
                 style={{
                   width: 90,
-                  height: 145, // ✅ 고정 높이
+                  height: 145,
                   background: "#DB2777",
                   borderTopLeftRadius: 30,
                   borderTopRightRadius: 30,
@@ -172,7 +172,7 @@ const Report: React.FC = () => {
               <div
                 style={{
                   width: 90,
-                  height: 120, // ✅ 고정 높이
+                  height: 120,
                   background: "#BFDBFE",
                   borderTopLeftRadius: 30,
                   borderTopRightRadius: 30,
