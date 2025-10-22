@@ -8,7 +8,7 @@ import {useNavigate} from "react-router-dom";
 import { dummyReportData } from "../data/dummy_users_products";
 
 const Report: React.FC = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const data = dummyReportData;
   const types = ['암', '뇌', '심장','실손','치아','사망','장애','간병','치매'];
 

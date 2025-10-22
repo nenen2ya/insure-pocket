@@ -4,6 +4,7 @@ import hanhwa from "../assets/img/company/hanhwa.png"
 import samsung from "../assets/img/company/samsung.png"
 import metlife from "../assets/img/company/metlife.png"
 import MyPageCard from "../components/MyPageCard";
+// import { dummyReportData } from "../data/dummy_users_products";
 
 const Myinsur:React.FC = () => {
 
