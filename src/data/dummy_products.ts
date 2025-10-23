@@ -7,7 +7,8 @@ import lotte from "../assets/img/company/lotte.png";
 export const dummyRecommedData = {
     user_id: 4,
     user_name:"윤시윤",
-    id:1,
+    category_id: 1, //암
+    category_name: "암",
     recommend_products :[
         {
             company_id:1,

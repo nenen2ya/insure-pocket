@@ -4,9 +4,11 @@ import RecommendCard from "../components/RecommendCard"
 import CancerGraph from "../components/CancerGraph";
 
 import {dummyRecommedData} from "../data/dummy_products";
+import { dummyCancerData } from "../data/dummy_cancergraph";
 
 const SubReport: React.FC = () => {
-    const data = dummyRecommedData;
+    const data1 = dummyRecommedData;
+    const data2 = dummyCancerData;
     const subtypes = ["간암", "췌장암", "폐암", "위암", "대장암", "유방암", "갑상선암"];
 
     return (
@@ -17,8 +19,8 @@ const SubReport: React.FC = () => {
             alignItems:"baseline",
             gap: 10
             }}>
-            <h2 style={{fontSize:40}}>{data.user_name}님</h2>
-            <h2 style={{color:"#2563EB", fontSize:45}}>암</h2>
+            <h2 style={{fontSize:40}}>{data1.user_name}님</h2>
+            <h2 style={{color:"#2563EB", fontSize:45}}>{data1.category_name}</h2>
             <h2 style={{fontSize:40}}>보험 세부 분석 리포트</h2>
         </div>
         <div style={{
@@ -27,7 +29,7 @@ const SubReport: React.FC = () => {
         gap:"20px",
         justifyContent:'center'
         }}>
-            <ReportCard title="암 세부 종류별 보장금액 현황" width="100%" height="fit-content">
+            <ReportCard title= {`${data1.category_name} 세부 종류별 보장금액 현황`} width="100%" height="fit-content">
                 <div style ={{
                     width:"980px", 
                     height:"fit-content",
@@ -39,13 +41,18 @@ const SubReport: React.FC = () => {
                     }}
                 >
                     {subtypes.map((subtype,i) => (
-                        <CancerGraph key={i} subtype={subtype}></CancerGraph>
+                        <CancerGraph 
+                        key={i} subtype={subtype} 
+                        recommended_coverage={data2.results[i].recommended_coverage ?? 0}
+                        coverage_amount={data2.results[i].coverage_amount ?? 0}>
+                        </CancerGraph>
                     ))
                     }
                 </div>
             </ReportCard>
+
             <ReportCard title="맞춤형 상품 추천" width="980px" height="100%"> 
-                {data.recommend_products.map((product)=>(
+                {data1.recommend_products.map((product)=>(
                     <RecommendCard
                     key = {product.product_id}
                     imgSrc={product.company_img}
