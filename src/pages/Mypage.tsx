@@ -5,6 +5,7 @@ import vectorwhite from "../assets/img/vectorwhite.png"
 import { useNavigate } from "react-router-dom";
 
 
+
 const MpCard = styled.div`
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;

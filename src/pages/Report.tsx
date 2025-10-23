@@ -4,13 +4,12 @@ import ReportCard from "../components/ReportCard";
 import SummaryGraph from "../components/SummaryGraph";
 
 import { dummyReportData } from "../data/dummy_users_products";
-import { commentData } from "../data/total_comment";
-import { ageAvgPremium} from "../data/premium_age_avg";
-import { dummyUserInfo } from "../data/dummy_userinfo";
+import { ReportData } from "../data/report_data";
+import { dummyUserInfo } from "../data/dummy_user_info";
 
 const Report: React.FC = () => {
   const data = dummyReportData;
-  const agePremium = ageAvgPremium;
+  const report = ReportData;
   const userInfo = dummyUserInfo;
 
   const ageGroup = (age:number) => {
@@ -20,7 +19,7 @@ const Report: React.FC = () => {
     if (age < 60) return 50;
     return 60;
   }
-  const ageAvg = agePremium.premium_avg.find((p) => p.age_group === ageGroup(userInfo.user_age))?.avg || 0 ;
+  const ageAvg = report.premium_avg.find((p) => p.age_group === ageGroup(userInfo.user_age))?.avg || 0 ;
   const totalPremium = data.user_products.reduce((sum, product) => sum + product.monthly_premium, 0);
 
   const types = ['암', '뇌', '심장','실손','치아','사망','장애','간병','치매'];
@@ -237,10 +236,10 @@ const Report: React.FC = () => {
         }}>
           <p style={{margin:0,fontWeight:"bold"}}>{userInfo.user_name}님을 위한 보험 가입 팁</p>
           {[
-            commentData.smoking.find(v => v.type === userInfo.smoking)?.comment,
-            commentData.drinking.find(v => v.type === userInfo.drinking)?.comment,
-            commentData.job.find(v => v.type === userInfo.job)?.comment,
-            commentData.drive_license.find(v => v.type === userInfo.drive_license)?.comment
+            report.total_comment.smoking.find(v => v.type === userInfo.smoking)?.comment,
+            report.total_comment.drinking.find(v => v.type === userInfo.drinking)?.comment,
+            report.total_comment.job.find(v => v.type === userInfo.job)?.comment,
+            report.total_comment.drive_license.find(v => v.type === userInfo.drive_license)?.comment
           ]
           .filter(Boolean)
           .map((comment, i) => (

@@ -87,55 +87,85 @@ const SummaryGraph: React.FC<SummaryGraphProps> = ({type}) => {
             {/* 그래프 박스 */}
             <div style={{
                 width:"220px",
-                height:"150px",
+                height:"180px",
                 backgroundColor:"white",
                 borderRadius:30,
                 border:"2px solid #2563EB",
                 padding:12,
                 display:"flex",
-                flexDirection:"column",
-                justifyContent: "center",
-                gap:8
+                flexDirection:"row",
+                justifyContent: "space-evenly",
+                alignItems:"flex-end",
+                position:"relative",
+                overflow:"hidden"
                 }}>
-                {/* 그래프+y축 */}
+                {/* x축선 */}
+                <div style={{
+                    position:"absolute",
+                    bottom:51,
+                    left:"50%",
+                    transform:"translateX(-50%)",
+                    width:"80%",
+                    height:4,
+                    backgroundColor:"#EFF6FF",
+                    borderRadius:2
+                }}/>
+                {/* 세로 막대 그래프 */}
                 <div style={{
                     display:"flex",
-                    flexDirection:"row",
-                    justifyContent:"flex-end",
+                    flexDirection:"column",
+                    alignItems:"center",
                     // border:"2px solid black"
                 }}>
-                    {/* y축 */}
+                    {/*부족 그래프*/}
                     <div style={{
-                    width: 3, 
-                    height: 60, 
-                    backgroundColor:"#DFE8EC", 
-                    alignSelf:"center"
+                        width: 30,
+                        height: 100,
+                        background:"#DB2777",
+                        borderTopRightRadius:20,
+                        borderTopLeftRadius:20
                     }}
-                    >
-                    </div>
-                    {/* 그래프 */}
-                    <div style={{
-                    width: 110,
-                    height: 28, 
-                    background: '#1E3A8A', 
-                    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', 
-                    borderTopRightRadius: 20, 
-                    borderBottomRightRadius: 20,
-                    alignSelf:"center"
-                    }}>
-                    </div>
-                </div>
+                    />
 
+                    <p style={{fontSize: 14, marginTop: 8, color:"#000000"}}>부족</p>
+                </div>         
                 <div style={{
-                    textAlign: 'center',
-                    fontSize: 15, 
-                    color:"black",
-                    fontWeight:"normal"
-                    }}>
-                    권장금액
+                    display:"flex",
+                    flexDirection:"column",
+                    alignItems:"center",
+                    // border:"2px solid black"
+                }}>
+                    {/*적정 그래프*/}
+                    <div style={{
+                        width: 30,
+                        height: 60,
+                        background:"#BFDBFE",
+                        borderTopRightRadius:20,
+                        borderTopLeftRadius:20
+                    }}
+                    />
+
+                    <p style={{fontSize: 14, marginTop: 8, color:"#000000"}}>적정</p>
+                </div>         
+                <div style={{
+                    display:"flex",
+                    flexDirection:"column",
+                    alignItems:"center",
+                    // border:"2px solid black"
+                }}>
+                    {/*여유 그래프*/}
+                    <div style={{
+                        width: 30,
+                        height: 40,
+                        background:"#2563EB",
+                        borderTopRightRadius:20,
+                        borderTopLeftRadius:20
+                    }}
+                    />
+                    
+                    <p style={{fontSize: 14, marginTop: 8, color:"#000000"}}>여유</p>
                 </div>
             </div>
-
         </Link>
     );
 }
