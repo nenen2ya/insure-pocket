@@ -26,9 +26,10 @@ interface RecommendCardProps {
   title: string;  // 상품명
   cancerKeywords: string[]; //세부암 키워드
   href: any; //보험사 링크
-  contents?: {keyword:string, summary:string}[];
+  contents: {keyword:string, summary:string}[];
   width?: string; // 카드 너비
   height?: string; // 카드 높이
+  selected: boolean //포켓 담긴 여부
 }
 
 const RecommendCard: React.FC<RecommendCardProps> = ({ 
@@ -37,7 +38,8 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
     cancerKeywords,
     href,
     width=900,
-    contents
+    contents,
+    selected
 }) => {
     const [open, setOpen] = useState(false); 
     const toggle = () => setOpen(!open); //open -> !open으로 바꿈
@@ -177,11 +179,12 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
                             </div>
                         ))}
                     </div>
+                {selected===false&&(
                 <div style={{
                     display:"flex",
                     flexDirection:"row",
                     justifyContent:"center"
-                }}>
+                    }}>
                     <form method="post">
                         <Button 
                         onClick={()=>window.open("/inmypocket", "_blank")}
@@ -200,6 +203,7 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
                     />
                     </form>
                 </div>
+                )}
             </div>
             )}
         </div>           

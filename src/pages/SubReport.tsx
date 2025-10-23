@@ -63,6 +63,7 @@ const SubReport: React.FC = () => {
                                     }
                     href= {product.company_src}
                     contents={product.contents}
+                    selected={false}
                     />
                 ))
                 }

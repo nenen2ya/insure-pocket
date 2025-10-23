@@ -37,7 +37,8 @@ function MyCheck({checked=false}: {checked?:boolean}) {
 }
 
 interface PocketBarProps {
-    std: string; //회사이름 혹은 질병 대분류
+    std: boolean; //true:보험사|false:보장영역
+    std_content: string; //분류별 내용
     width?: string;
     height?: string;
     children?: React.ReactNode;
@@ -45,6 +46,7 @@ interface PocketBarProps {
 
 const PocketBar: React.FC<PocketBarProps> = ({
     std,
+    std_content,
     width="100%",
     height="100%",
     children
@@ -81,7 +83,7 @@ const PocketBar: React.FC<PocketBarProps> = ({
                         <MyCheck checked={checked} />
                     </div>
                     <div style={{position:"relative", top:"-2px"}}>
-                        <span style={{fontSize:"23px", fontWeight:"500", color:"#000000",top:"-1px"}}>{std}</span>
+                        <span style={{fontSize:"23px", fontWeight:"500", color:"#000000",top:"-1px"}}>{std_content}</span>
                     </div>
                 </div>
                     <button 

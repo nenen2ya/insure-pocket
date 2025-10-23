@@ -2,31 +2,12 @@ import React, {useState} from 'react';
 import ReportCard from "../components/ReportCard";
 import PocketBar from '../components/PocketBar';
 import RecommendCard from '../components/RecommendCard';
-import hanhwa from "../assets/img/company/hanhwa.png"
-import samsung from "../assets/img/company/samsung.png"
-import metlife from "../assets/img/company/metlife.png"
+
+import { dummyInMyPocket } from '../data/dummy_inmypocket';
 
 
 const Inmypocket:React.FC = () => {
-    const insurnum = "3"
-    const company = "한화생명보험"
-    const type = "암"
-    const imgSrcs = [hanhwa,samsung,metlife];
-    const titles = [
-        "한화생명 무슨무슨 암보험 (갱신형)",
-        "삼성생명 무슨무슨 암보험 (갱신형)",
-        "메트라이프 무슨무슨 암보험 (갱신형)"
-    ];
-    const hrefs = [
-        "https://www.hanwhalife.com/main/MN_0000000_P10000.do", //한화 주소
-        "https://www.samsunglife.com/", //삼성 주소
-        "https://www.metlife.co.kr/", //메트라이프 주소
-    ]
-    const cancerKeywords = [
-        ["간암", "갑상선암", "폐암","위암"],
-        ['위암', '대장암'],
-        ['폐암']
-    ];
+    const data = dummyInMyPocket;
     const [activeTab, setActiveTab] = useState<"보험사" | "보장영역">("보험사")
 
     return(
@@ -116,40 +97,77 @@ const Inmypocket:React.FC = () => {
                 </div>
             </div>
 
-            <div style={{marginTop:"78px"}}>
-                <ReportCard title={`총 ${insurnum}개`} width="977px" height="auto">
-                    <div style={{overflow:"hidden", width:"100%"}}>
+            <div style={{
+                marginTop:"78px", 
+                // border:"2px solid black"
+                }}>
+                {/*리포트 카드 전체*/}
+                <ReportCard 
+                title={`총 ${(data.categories[0].products.length)}개`} 
+                width="977px" 
+                height="auto"
+                >
+                    {/* [ 보험사 + 보장영역 ] transition 범위 */}
+                    <div style={{
+                        overflow:"hidden", 
+                        width:"100%", 
+                        // border:"2px solid black"
+                        }}>
+                        {/* 보험사 눌렀을 때 */}
                         <div style={{
                             display:"flex",
-                            justifyContent:"row",
-                            transform: activeTab === "보험사" ? "translateX(0%)" : "translateX(-100%)",
-                            transition:"transform 0.3s ease-in-out",
+                            flexDirection:"column",
+                            // transform: activeTab === "보험사" ? "translateX(0%)" : "translateX(-150%)",
+                            // transition:"transform 0.5s ease-in-out",
+                            // border:"2px solid black"
                         }}>
-                            {/*보험사*/}
+                            {/*보험사-보장영역 구분*/}
                             <div style ={{
                                 width:"100%",
                                 flexShrink:0,
                             }}>
-                                <PocketBar std={company}>
-                                    {imgSrcs.map((imgSrc,i) => (
-                                    <RecommendCard
-                                        key = {i}
-                                        imgSrc={imgSrc} 
-                                        title={titles[i]} 
-                                        cancerKeywords={cancerKeywords[i]} 
-                                        href={hrefs[i]}
-                                        width="800px"
-                                    />
-                                ))
-                                }
-                            </PocketBar>
-                            </div>
-                            {/*보장영역*/}
-                            <div style ={{
-                                width:"100%",
-                                flexShrink:0
-                            }}>
-                                <PocketBar std={type}></PocketBar>
+                                {data.categories.map((category,i)=>(
+                                <div key={i}>
+                                    {activeTab === "보험사"
+                                    ? category.products.map((product,j)=>(
+                                        <PocketBar
+                                            key={j}
+                                            std={true}
+                                            std_content={product.company_name} // ✅ 이 부분만 유지
+                                        >
+                                            <RecommendCard
+                                            imgSrc={product.company_img}
+                                            title={product.product_name}
+                                            cancerKeywords={product.subcategories.map(s => s.subcategory_name)}
+                                            href={product.company_href}
+                                            contents={product.contents}
+                                            selected={true}
+                                            width="800px"
+                                            />
+                                        </PocketBar>
+                                        ))
+                                    : (
+                                        <PocketBar
+                                        key={i}
+                                        std={false}
+                                        std_content={category.category_name}
+                                        >
+                                        {category.products.map((product,j)=>(
+                                            <RecommendCard
+                                            key={j}
+                                            imgSrc={product.company_img}
+                                            title={product.product_name}
+                                            cancerKeywords={product.subcategories.map(s => s.subcategory_name)}
+                                            href={product.company_href}
+                                            contents={product.contents}
+                                            selected={true}
+                                            width="800px"
+                                            />
+                                        ))}
+                                        </PocketBar>
+                                    )}
+                                </div>
+                                ))}
                             </div>
                         </div>
                     </div>
