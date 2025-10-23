@@ -22,7 +22,7 @@ export const dummyReportData = {
       category: "cancer",
       company_name: "메트라이프",
       product_name: "메트라이프 실손보험",
-      monthly_premium: 10000,
+      monthly_premium: 50000,
       company_img: metlife,
     },
     {

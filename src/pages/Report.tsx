@@ -6,7 +6,7 @@ import SummaryGraph from "../components/SummaryGraph";
 import { dummyReportData } from "../data/dummy_users_products";
 import { commentData } from "../data/total_comment";
 import { ageAvgPremium} from "../data/premium_age_avg";
-import { dummyUserInfo } from "../data/dummy_userInfo";
+import { dummyUserInfo } from "../data/dummy_userinfo";
 
 const Report: React.FC = () => {
   const data = dummyReportData;
