@@ -7,4 +7,4 @@ export const dummyUserInfo = {
         drinking:"none",
         job:"low",
         drive_license:"YES"  
-}
+};
