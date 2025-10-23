@@ -30,7 +30,7 @@ const TopBanner: React.FC = () => {
   return (
     <header style={bannerStyle}>
       <Link to="/" style={{ display: "flex",  }}>
-        <h2 style={{color:"#1E3A8A", fontWeight:"700px", display:"flex", alignSelf:"center"}}>인슈어포켓</h2>
+        <h2 style={{color:"#1E3A8A", fontWeight:"700px", display:"flex", alignSelf:"center", whiteSpace:"nowrap"}}>인슈어포켓</h2>
         <img src={logo} alt="로고" style={{ width: "80px" }} />
       </Link>
       
@@ -70,7 +70,8 @@ const TopBanner: React.FC = () => {
           paddingBottom:12,
           borderRadius:30,
           fontWeight:"400",
-          fontSize:"18px"
+          fontSize:"18px",
+          whiteSpace:"nowrap"
         }}>
           마이페이지
         </Link>
