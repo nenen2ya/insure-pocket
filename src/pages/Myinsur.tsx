@@ -1,23 +1,11 @@
 import React from "react";
 import ReportCard from "../components/ReportCard";
-import hanhwa from "../assets/img/company/hanhwa.png"
-import samsung from "../assets/img/company/samsung.png"
-import metlife from "../assets/img/company/metlife.png"
 import MyPageCard from "../components/MyPageCard";
-// import { dummyReportData } from "../data/dummy_users_products";
+import { dummyReportData } from "../data/dummy_users_products";
 
 const Myinsur:React.FC = () => {
 
-    const username = "윤시윤";
-    const insurnum = "2";
-    const imgSrcs = [hanhwa,samsung,metlife];
-    const titles = [
-        "한화생명 무슨무슨 암보험 (갱신형)",
-        "삼성생명 무슨무슨 암보험 (갱신형)",
-        "메트라이프 무슨무슨 암보험 (갱신형)"
-    ];
-    const  prices = [27500, 15000, 13000]
-
+    const data = dummyReportData;
 
     return(
         <div style={{
@@ -33,13 +21,13 @@ const Myinsur:React.FC = () => {
                 alignItems:"baseline",
                 gap:"8px"
             }}>
-                <span style={{fontSize:"40px", fontWeight:"500"}}>{username}님의</span>
+                <span style={{fontSize:"40px", fontWeight:"500"}}>{data.user_name}님의</span>
                 <span style={{color:"#2563EB", fontSize:"45px", fontWeight:"500"}}>가입된 보험</span>
             </div>
 
             <div style={{marginTop:"40px"}}>
 
-                <ReportCard title={`총 ${insurnum}개`} width="977px" height="auto">
+                <ReportCard title={`총 ${data.user_products.length}개`} width="977px" height="auto">
                     <div style={{
                         display:"flex",
                         flexDirection:"column",
@@ -47,12 +35,12 @@ const Myinsur:React.FC = () => {
                         marginBottom:"15px",
                         gap:"20px"
                     }}>
-                        {imgSrcs.map((imgSrc,i) => (
+                        {data.user_products.map((product) => (
                         <MyPageCard
-                            key = {i}
-                            imgSrc={imgSrc} 
-                            title={titles[i]}
-                            price={prices[i].toLocaleString()}
+                            key = {product.id}
+                            imgSrc={product.company_img} 
+                            title={product.product_name}
+                            price={product.monthly_premium.toLocaleString()}
                         />
                     ))
                     }   

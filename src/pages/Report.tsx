@@ -3,13 +3,24 @@ import React from "react";
 import InsuranceCard from "../components/InsuranceCard";
 import ReportCard from "../components/ReportCard";
 import SummaryGraph from "../components/SummaryGraph";
-import {useNavigate} from "react-router-dom";
+// import {useNavigate} from "react-router-dom";
 
 import { dummyReportData } from "../data/dummy_users_products";
+import { commentData } from "../data/total_comment";
 
 const Report: React.FC = () => {
   // const navigate = useNavigate();
   const data = dummyReportData;
+  const surveyData = commentData.user_survey[0];
+  const userType = commentData.user_type[0];
+
+  const comments = [
+    surveyData.smoking.find(v => v.type === userType.smoking)?.comment,
+    surveyData.drinking.find(v => v.type === userType.drinking)?.comment,
+    surveyData.job.find(v => v.type === userType.job)?.comment,
+    surveyData.drive_license.find(v => v.type === userType.drive_license)?.comment
+  ].filter(Boolean);
+
   const types = ['암', '뇌', '심장','실손','치아','사망','장애','간병','치매'];
 
   return (
@@ -198,9 +209,6 @@ const Report: React.FC = () => {
       </ReportCard>
     </div>
 
-
-
-
       <ReportCard title="요약" width="980px" height="fit-content"> 
         <div style={{
           display:"grid",
@@ -215,11 +223,11 @@ const Report: React.FC = () => {
           }   
           </div>
       </ReportCard>
-      <ReportCard title="종합 코멘트" width= "980px" height="200px">
+      <ReportCard title="종합 코멘트" width= "980px" height="auto">
         <p style={{
           display:"flex",
           justifyContent:"flex-start"
-        }}>{data.user_name}님의 가입 상품은 뭐고, 이래서 그래요</p>
+        }}>{data.user_name}님,{comments}</p>
       </ReportCard>
     </div>
   </div>
