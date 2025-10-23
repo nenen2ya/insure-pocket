@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { dummyCancerData } from '../data/dummy_cancergraph';
+// import { dummyCancerData } from '../data/dummy_cancergraph';
 
 interface CancerGraphProps {
     subtype: string; // 암 세부분류
@@ -13,7 +13,7 @@ const CancerGraph: React.FC<CancerGraphProps> = ({
     recommended_coverage,
     coverage_amount 
 }) => {
-    const data = dummyCancerData;
+    // const data = dummyCancerData;
     
     return (
         <div style={{ 

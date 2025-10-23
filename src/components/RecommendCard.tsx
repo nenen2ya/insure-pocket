@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import vector from "../assets/img/vector.png";
 import Button from "../components/Button";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
-import { dummyRecommedData } from "../data/dummy_products";
+// import { dummyRecommedData } from "../data/dummy_products";
 
 function MyToggle({rotated = false}:{rotated?:boolean}) {
     return (
@@ -26,7 +26,7 @@ interface RecommendCardProps {
   title: string;  // 상품명
   cancerKeywords: string[]; //세부암 키워드
   href: any; //보험사 링크
-  contents: {keyword:string, summary:string}[];
+  contents?: {keyword:string, summary:string}[];
   width?: string; // 카드 너비
   height?: string; // 카드 높이
 }
@@ -170,7 +170,7 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
                         justifyContent:"space-between"
                     }}>
                         {/* 키워드랑 써머리 3개 묶음 */}
-                        {contents.map((content, i)=>(
+                        {contents&&contents.map((content, i)=>(
                             <div key={i}>
                             <h2>{content.keyword}</h2>
                             <h3>{content.summary}</h3>
