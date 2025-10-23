@@ -3,32 +3,11 @@ import ReportCard from "../components/ReportCard";
 import RecommendCard from "../components/RecommendCard"
 import CancerGraph from "../components/CancerGraph";
 
-import hanhwa from "../assets/img/company/hanhwa.png";
-import samsung from "../assets/img/company/samsung.png";
-import metlife from "../assets/img/company/metlife.png";
-
-// import {dummyRecommendData} from "../data/dummy_products";
+import {dummyRecommedData} from "../data/dummy_products";
 
 const SubReport: React.FC = () => {
-    // const data = dummyRecommendData;
-    const username = "윤시윤";
+    const data = dummyRecommedData;
     const subtypes = ["간암", "췌장암", "폐암", "위암", "대장암", "유방암", "갑상선암"];
-    const imgSrcs = [hanhwa,samsung,metlife];
-    const titles = [
-        "한화생명 무슨무슨 암보험 (갱신형)",
-        "삼성생명 무슨무슨 암보험 (갱신형)",
-        "메트라이프 무슨무슨 암보험 (갱신형)"
-    ];
-    const hrefs = [
-        "https://www.hanwhalife.com/main/MN_0000000_P10000.do", //한화 주소
-        "https://www.samsunglife.com/", //삼성 주소
-        "https://www.metlife.co.kr/", //메트라이프 주소
-    ]
-    const cancerKeywords = [
-        ["간암", "갑상선암", "폐암","위암"],
-        ['위암', '대장암'],
-        ['폐암']
-    ];
 
     return (
     <div style={{ textAlign: "center", marginTop: "100px" }}>
@@ -38,7 +17,7 @@ const SubReport: React.FC = () => {
             alignItems:"baseline",
             gap: 10
             }}>
-            <h2 style={{fontSize:40}}>{username}님</h2>
+            <h2 style={{fontSize:40}}>{data.user_name}님</h2>
             <h2 style={{color:"#2563EB", fontSize:45}}>암</h2>
             <h2 style={{fontSize:40}}>보험 세부 분석 리포트</h2>
         </div>
@@ -59,26 +38,27 @@ const SubReport: React.FC = () => {
                     gap:"20px"
                     }}
                 >
-                    <CancerGraph subtype={subtypes[0]}></CancerGraph>
-                    <CancerGraph subtype={subtypes[1]}></CancerGraph>
-                    <CancerGraph subtype={subtypes[2]}></CancerGraph>
-                    <CancerGraph subtype={subtypes[3]}></CancerGraph>
-                    <CancerGraph subtype={subtypes[4]}></CancerGraph>
-                    <CancerGraph subtype={subtypes[5]}></CancerGraph>
-                    <CancerGraph subtype={subtypes[6]}></CancerGraph>
+                    {subtypes.map((subtype,i) => (
+                        <CancerGraph key={i} subtype={subtype}></CancerGraph>
+                    ))
+                    }
                 </div>
             </ReportCard>
-            <ReportCard title="맞춤형 상품 추천" width="980px" height="100%">  
-                    {imgSrcs.map((imgSrc, i) => (
-                        <RecommendCard 
-                            key = {i}
-                            imgSrc={imgSrc} 
-                            title={titles[i]} 
-                            cancerKeywords={cancerKeywords[i]} 
-                            href={hrefs[i]}
-                        />
-                    ))
-                    }      
+            <ReportCard title="맞춤형 상품 추천" width="980px" height="100%"> 
+                {data.recommend_products.map((product)=>(
+                    <RecommendCard
+                    key = {product.product_id}
+                    imgSrc={product.company_img}
+                    title= {product.product_name}
+                    cancerKeywords= {product.subcategories.map((subcategory)=>(
+                                        subcategory.subcategory_name
+                                    ))
+                                    }
+                    href= {product.company_src}
+                    contents={product.contents}
+                    />
+                ))
+                }
             </ReportCard>
         </div>
     </div>

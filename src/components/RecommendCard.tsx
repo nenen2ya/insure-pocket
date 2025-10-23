@@ -3,6 +3,8 @@ import vector from "../assets/img/vector.png";
 import Button from "../components/Button";
 import { Link } from "react-router-dom";
 
+import { dummyRecommedData } from "../data/dummy_products";
+
 function MyToggle({rotated = false}:{rotated?:boolean}) {
     return (
         <img 
@@ -23,7 +25,8 @@ interface RecommendCardProps {
   imgSrc: string; // 이미지 경로
   title: string;  // 상품명
   cancerKeywords: string[]; //세부암 키워드
-  href: string; //보험사 링크
+  href: any; //보험사 링크
+  contents: {keyword:string, summary:string}[];
   width?: string; // 카드 너비
   height?: string; // 카드 높이
 }
@@ -33,7 +36,8 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
     title, 
     cancerKeywords,
     href,
-    width=900
+    width=900,
+    contents
 }) => {
     const [open, setOpen] = useState(false); 
     const toggle = () => setOpen(!open); //open -> !open으로 바꿈
@@ -151,6 +155,7 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
                     </div>
                 </button>
             </div> 
+            {/* 토글 오픈 시 */}
             {open&& (
                 <div style={{
                     width:"100%",
@@ -162,45 +167,40 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
                 >
                     <div style={{
                         display:"flex",
-                        justifyContent:"space-around"
+                        justifyContent:"space-between"
                     }}>
                         {/* 키워드랑 써머리 3개 묶음 */}
-                        {[
-                        {keyword: "keyword1", summary:"summary1"}, 
-                        {keyword: "keyword2", summary:"summary2"}, 
-                        {keyword: "keyword3", summary:"summary3"}
-                        ].map((content,i) => (
+                        {contents.map((content, i)=>(
                             <div key={i}>
-                                <h2>{content.keyword}</h2>
-                                <h3>{content.summary}</h3>
+                            <h2>{content.keyword}</h2>
+                            <h3>{content.summary}</h3>
                             </div>
-                        ))
-                        }
+                        ))}
                     </div>
-                    <div style={{
-                        display:"flex",
-                        flexDirection:"row",
-                        justifyContent:"center"
-                    }}>
-                        <form method="post">
-                            <Button 
-                            onClick={()=>window.open("/inmypocket", "_blank")}
-                            text="포켓에 담기" 
-                            backgroundColor="#DB2777"
-                            width="200px" 
-                            height="70px"/>
-                        </form>
-                        <form>
-                        <Button
-                        onClick={()=>window.open(href, "_blank")}
-                        text="가입하기" 
-                        backgroundColor="#1E3A8A" 
-                        width="200px"
-                        height="70px"
-                        />
-                        </form>
-                    </div>
+                <div style={{
+                    display:"flex",
+                    flexDirection:"row",
+                    justifyContent:"center"
+                }}>
+                    <form method="post">
+                        <Button 
+                        onClick={()=>window.open("/inmypocket", "_blank")}
+                        text="포켓에 담기" 
+                        backgroundColor="#DB2777"
+                        width="200px" 
+                        height="70px"/>
+                    </form>
+                    <form>
+                    <Button
+                    onClick={()=>window.open(href, "_blank")}
+                    text="가입하기" 
+                    backgroundColor="#1E3A8A" 
+                    width="200px"
+                    height="70px"
+                    />
+                    </form>
                 </div>
+            </div>
             )}
         </div>           
     );
