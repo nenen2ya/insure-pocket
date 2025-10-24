@@ -1,24 +1,68 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import ReportCard from "../components/ReportCard";
 import PocketBar from '../components/PocketBar';
 import RecommendCard from '../components/RecommendCard';
 
-import { dummyInMyPocket } from '../data/dummy_inmypocket';
-
-
 const Inmypocket:React.FC = () => {
-    const data = dummyInMyPocket;
+    const [data, setData] = useState<PocketItem[]>([]);
+    const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<"보험사" | "보장영역">("보험사")
 
-    interface Product {
-    company_name: string;
-    company_img: string;
-    company_href: string;
-    product_name: string;
-    subcategories: { subcategory_name: string }[];
-    contents: { keyword: string; summary: string }[];
-    monthly_premium: number;
+    interface Company {
+    company_name?: string;
+    company_img?: string;
+    url?: string;
     }
+
+    interface Coverage {
+    subcategories?: {
+        name?: string;
+        categories?: {
+        type?: string;
+        };
+    };
+    }
+
+    interface Product {
+    id?: number;
+    product_name?: string;
+    keyword1?: string;
+    keyword2?: string;
+    keyword3?: string;
+    summary1?: string;
+    summary2?: string;
+    summary3?: string;
+    monthly_premium?: number;
+    companies?: Company;
+    coverage?: Coverage[];
+    }
+
+    interface PocketItem {
+    id?: number;
+    products?: Product;
+    }
+
+      // ✅ 백엔드에서 데이터 가져오기
+    const fetchPocketData = async () => {
+        try {
+        const response = await fetch(
+            "https://insure-pocket-back-1.onrender.com/pockets/7"
+        );
+        if (!response.ok) throw new Error("서버 응답 오류");
+
+        const result = await response.json();
+        setData(result); // result는 배열 형태임 (예시 JSON 참고)
+        } catch (error) {
+        } finally {
+        setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchPocketData();
+    }, []);
+
+    if (loading) return <p style={{ margin: "100px" }}>불러오는 중...</p>;
 
     return(
         <div style={{overflowY:"auto", minHeight:"100vh"}}> //viewheight 100% 채워라
@@ -112,7 +156,7 @@ const Inmypocket:React.FC = () => {
                 }}>
                 {/*리포트 카드 전체*/}
                 <ReportCard 
-                title={`총 ${(data.categories[0].products.length)}개`} 
+                title={`총 ${(data.length)}개`} 
                 width="977px" 
                 height="auto"
                 >
@@ -131,65 +175,117 @@ const Inmypocket:React.FC = () => {
                                 width:"100%",
                                 flexShrink:0,
                             }}>
-                                {data.categories.map((category,i)=>{
-                                    
-                                    const groupedProducts:any = {};
+                                {activeTab === "보험사"
+                                    ? data.map((item: any, i: number) => (
+                                    <PocketBar
+                                        key={i}
+                                        std={true}
+                                        std_content={item.products?.companies?.company_name ?? "회사명 없음"}
+                                    >
+                                        
+                                    <RecommendCard
+                                    key={i}
+                                    imgSrc={item.products?.companies?.company_img ?? ""}
+                                    title={item.products?.product_name ?? "상품명 없음"}
+                                    cancerKeywords={item.products.coverage.map(
+                                        (c: any) => c.subcategories.name
+                                        )}
+                                    href={item.products?.companies?.url ?? "#"}
+                                    contents={[
+                                    {
+                                        keyword: item.products.keyword1,
+                                        summary: item.products.summary1,
+                                    },
+                                    {
+                                        keyword: item.products.keyword2,
+                                        summary: item.products.summary2,
+                                    },
+                                    {
+                                        keyword: item.products.keyword3,
+                                        summary: item.products.summary3,
+                                    },
+                                    ]}
+                                    selected={true}
+                                    width="800px"
+                                    />
+                                        
+                                    </PocketBar>
+                                    ))
+                                : (() => {
+                                    // ✅ 1) grouped 타입 명시
+                                    type Coverage = {
+                                        subcategories?: { name?: string; categories?: { type?: string } };
+                                    };
+                                    type Product = {
+                                        id?: number;
+                                        coverage?: Coverage[];
+                                        keyword1?: string; keyword2?: string; keyword3?: string;
+                                        summary1?: string; summary2?: string; summary3?: string;
+                                        companies?: { url?: string; company_name?: string; company_img?: string };
+                                        product_name?: string;
+                                        monthly_premium?: number;
+                                    };
+                                    type PocketItem = { id?: number; products?: Product };
 
-                                    category.products.forEach((product)=>{
-                                        const name = product.company_name; //카테고리 별 개별 product 돌면서 product.company_name name으로 명명
-                                        if (!groupedProducts[name]) {
-                                            groupedProducts[name] = [];
+                                    const grouped: Record<string, PocketItem[]> = {};
+
+                                    data.forEach((item: PocketItem) => {
+                                        // ✅ 2) Set<string>로 명시 + 변수명 cat
+                                        const uniqueTypes: Set<string> = new Set(
+                                        (item.products?.coverage ?? []).map(
+                                            (cov: Coverage) => cov?.subcategories?.categories?.type ?? "기타"
+                                        )
+                                        );
+
+                                        uniqueTypes.forEach((cat: string) => {
+                                        if (!grouped[cat]) grouped[cat] = [];
+
+                                        // ✅ 3) 같은 상품 중복 방지
+                                        const alreadyExists = grouped[cat].some(
+                                            (i) => i.products?.id === item.products?.id
+                                        );
+                                        if (!alreadyExists) {
+                                            grouped[cat].push(item);
                                         }
-                                        groupedProducts[name].push(product);
+                                        });
                                     });
 
-                                    return(
-
-                                    <div key={i}>
-                                        {activeTab === "보험사"
-                                        ? Object.keys(groupedProducts).map((company)=>(
-                                            <PocketBar
-                                                key={company}
-                                                std={true}
-                                                std_content={company}
-                                            >
-                                                {groupedProducts[company].map((product:Product,j:number)=>(
-                                                    <RecommendCard
-                                                    key={j}
-                                                    imgSrc={product.company_img}
-                                                    title={product.product_name}
-                                                    cancerKeywords={product.subcategories.map((s) => s.subcategory_name)}
-                                                    href={product.company_href}
-                                                    contents={product.contents}
-                                                    selected={true}
-                                                    width="800px"
-                                                    />
-                                                ))}
-                                            </PocketBar>
-                                            ))
-
-                                        : (
-                                            <PocketBar
-                                            key={i}
-                                            std={false}
-                                            std_content={category.category_name}
-                                            >
-                                            {category.products.map((product,k)=>(
-                                                <RecommendCard
-                                                key={k}
-                                                imgSrc={product.company_img}
-                                                title={product.product_name}
-                                                cancerKeywords={product.subcategories.map(s => s.subcategory_name)}
-                                                href={product.company_href}
-                                                contents={product.contents}
-                                                selected={true}
-                                                width="800px"
-                                                />
-                                            ))}
-                                            </PocketBar>
-                                        )}
-                                    </div>
-                                )})}
+                                    return Object.keys(grouped).map((category) => (
+                                    <PocketBar
+                                    key={category}
+                                    std={false}
+                                    std_content={category}
+                                    >
+                                    {grouped[category].map((item, j)=>(
+                                        <RecommendCard
+                                        key={j}
+                                        imgSrc={item.products?.companies?.company_img ?? ""}
+                                        title={item.products?.product_name ?? "상품명 없음"}
+                                        cancerKeywords={item.products?.coverage?.map(
+                                            (c: any) => c?.subcategories?.name ?? ""
+                                        )?? [] }
+                                        href={item.products?.companies?.url ?? "#"}
+                                        contents={[
+                                            {
+                                            keyword: item.products?.keyword1 ?? "",
+                                            summary: item.products?.summary1 ?? "",
+                                            },
+                                            {
+                                            keyword: item.products?.keyword2 ?? "",
+                                            summary: item.products?.summary2 ?? "",
+                                            },
+                                            {
+                                            keyword: item.products?.keyword3 ?? "",
+                                            summary: item.products?.summary3 ?? "",
+                                            },
+                                        ]}
+                                        selected={true}
+                                        width="800px"
+                                        />
+                                    ))}
+                                    </PocketBar>
+                                    ));
+                                })()}
                             </div>
                         </div>
                     </div>

@@ -3,8 +3,6 @@ import vector from "../assets/img/vector.png";
 import Button from "../components/Button";
 // import { Link } from "react-router-dom";
 
-// import { dummyRecommedData } from "../data/dummy_products";
-
 function MyToggle({rotated = false}:{rotated?:boolean}) {
     return (
         <img 
