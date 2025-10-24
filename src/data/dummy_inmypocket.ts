@@ -1,4 +1,3 @@
-import meritz from "../assets/img/company/meritz.png";
 import metlife from "../assets/img/company/metlife.png";
 import lotte from "../assets/img/company/lotte.png";
 
@@ -48,12 +47,12 @@ export const dummyInMyPocket = {
                 },
                 // 상품 2
                 {
-                    company_id:3,
-                    company_name: "메리츠화재",
-                    company_img:meritz,
-                    company_href: "https://direct.meritzfire.com",
-                    product_id:2,
-                    product_name:"(무) 메리츠 또 걸려도 또 받는 암보험2509(갱신형)(3종)(2형)",
+                    company_id:1,
+                    company_name: "메트라이프생명",
+                    company_img:metlife,
+                    company_href: "https://www.metlife.co.kr/",
+                    product_id:1,
+                    product_name:"(무) 메트라이프 또 걸려도 또 받는 암보험2509(갱신형)(3종)(2형)",
                     subcategories:[
                         {
                             subcategory_id:3,

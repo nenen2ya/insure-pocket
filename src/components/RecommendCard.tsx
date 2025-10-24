@@ -66,7 +66,6 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
                 flexDirection:"row",
                 justifyContent:"space-between",
                 alignItems:"center",
-                // border:"2px solid black"
             }}>
                 {/* 키워드 묶음+로고+상품명 묶음 */}
                 <div style={{
@@ -75,8 +74,7 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
                     flexDirection:"column",
                     justifyContent:"center",
                     alignItems:"flex-start",
-                    gap:10,
-                    // border:"2px solid black"
+                    gap:10
                     }}>
 
                     {/* 키워드 묶음 */}
@@ -121,7 +119,6 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
                         alignSelf:"center",
                         gap:"20px", 
                         margin:0, 
-                        // border:"2px solid black"
                         }}>
                         <img
                         src={imgSrc}
@@ -158,54 +155,71 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
                 </button>
             </div> 
             {/* 토글 오픈 시 */}
-            {open&& (
+            <div style={{
+                width:"100%",
+                maxHeight: open ? "300px" : "0px",
+                overflowX:"hidden", //양쪽 글자 빠져나감 방지
+                display:"flex",
+                flexDirection:"column",
+                gap:"20px",
+                overflow: "hidden",
+                transition: "all 0.4s ease",
+                opacity: open ? 1 : 0, //투명도 변화
+            }}>
                 <div style={{
-                    width:"100%",
-                    height:"100%",
                     display:"flex",
-                    flexDirection:"column",
-                    gap:"20px"
-                }}
-                >
-                    <div style={{
-                        display:"flex",
-                        justifyContent:"space-between"
-                    }}>
-                        {/* 키워드랑 써머리 3개 묶음 */}
-                        {contents&&contents.map((content, i)=>(
-                            <div key={i}>
+                    justifyContent:"space-between"
+                }}>
+                    {/* 키워드랑 써머리 3개 묶음 */}
+                    {contents&&contents.map((content, i)=>(
+                        <div key={i}>
                             <h2>{content.keyword}</h2>
                             <h3>{content.summary}</h3>
-                            </div>
-                        ))}
-                    </div>
-                {selected===false&&(
+                        </div>
+                    ))}
+                </div>
                 <div style={{
                     display:"flex",
                     flexDirection:"row",
                     justifyContent:"center"
-                    }}>
+                }}>
                     <form method="post">
-                        <Button 
-                        onClick={()=>window.open("/inmypocket", "_blank")}
-                        text="포켓에 담기" 
-                        backgroundColor="#DB2777"
-                        width="200px" 
-                        height="70px"/>
+                        {selected===false
+                        ?<Button
+                            onClick={()=> {
+                                const answer = window.confirm("인마이포켓으로 이동할까요?");
+                                if (answer) {
+                                    window.open("/inmypocket")
+                                }
+                            }}
+                            text="포켓에 담기" 
+                            backgroundColor="#DB2777"
+                            width="200px" 
+                            height="70px"/>
+                        :<Button
+                            onClick={()=>{
+                                const answer = window.confirm("해당 상품을 인마이포켓에서 뺄까요?");
+                                if (answer) {
+                                    window.alert("포켓에서 뺐어요")
+                                } 
+                            }}
+                            text="포켓에서 빼기" 
+                            backgroundColor="#DB2777"
+                            width="200px" 
+                            height="70px"/>
+                        }
                     </form>
                     <form>
-                    <Button
-                    onClick={()=>window.open(href, "_blank")}
-                    text="가입하기" 
-                    backgroundColor="#1E3A8A" 
-                    width="200px"
-                    height="70px"
-                    />
+                        <Button
+                            onClick={()=>window.open(href, "_blank")}
+                            text="가입하기" 
+                            backgroundColor="#1E3A8A" 
+                            width="200px"
+                            height="70px"
+                        />
                     </form>
                 </div>
-                )}
             </div>
-            )}
         </div>           
     );
     };

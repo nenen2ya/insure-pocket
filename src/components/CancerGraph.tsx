@@ -41,20 +41,6 @@ const CancerGraph: React.FC<CancerGraphProps> = ({
             borderRadius:30
             }}>
 
-            {/* <div
-            style={{
-                width: '100%',
-                height: '100%',
-                left: 0,
-                top: 0,
-                position: 'absolute',  
-                background: 'white',
-                borderRadius: 30,
-                overflow:"hidden"
-            }}
-            /> */}
-        
-
             {/* 값/라벨/바 */}
             <div style={{ 
                 width: "100%", 
@@ -66,29 +52,15 @@ const CancerGraph: React.FC<CancerGraphProps> = ({
                 <div
                 style={{
                     position: 'absolute',
-                    right:"44%",
-                    top:"96%",
+                    right:"46%",
+                    top:"90%",
                     textAlign: 'center',
-                    fontSize: 10,
-                    fontWeight: 500,
+                    fontSize: 11,
+                    fontWeight: 700,
                     transition:"left 0.3s ease"
                 }}
                 >
-                권장금액 {recommended_coverage.toLocaleString()}만 원
-                </div>
-                {/* 보장금액 */}
-                <div
-                    style={{
-                        position: 'absolute',
-                        left: `${(coverage_amount / recommended_coverage) * 51}%`,
-                        top: "30%",
-                        textAlign: 'center',
-                        fontSize: 10,
-                        fontWeight: 500,
-                        whiteSpace: "nowrap",
-                        transition:"left 0.3s ease"
-                    }}>
-                    {coverage_amount.toLocaleString()}만 원
+                {recommended_coverage.toLocaleString()}만 원
                 </div>
 
                 <div style={{
@@ -99,12 +71,13 @@ const CancerGraph: React.FC<CancerGraphProps> = ({
                     {/* y축 */}
                     <div style={{
                     position: "absolute",
-                    width: 1, 
-                    height: "100%", 
+                    width: 4, 
+                    height: 70, 
                     left: "50%",
                     top:"50%",
                     transform:"translateY(-50%)",
-                    background:"#93C5FD"
+                    background:"#2563EB",
+                    opacity:"0.2"
                     }}
                     />
 
@@ -122,8 +95,24 @@ const CancerGraph: React.FC<CancerGraphProps> = ({
                         borderTopRightRadius: 20,
                         borderBottomRightRadius: 20,
                         transition: "width 0.3s ease"
-                    }}
-                    />
+                    }}>
+                        {/* 보장금액 */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                right: "6px",  
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                                fontSize: 11,
+                                color:"white",
+                                fontWeight: 400,
+                                whiteSpace: "nowrap",
+                                textShadow: "0 0 4px rgba(0,0,0,0.4)",
+                                transition:"left 0.3s ease"
+                            }}>
+                            {coverage_amount!==0 && `${coverage_amount.toLocaleString()}만 원`}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -10,10 +10,19 @@ const Inmypocket:React.FC = () => {
     const data = dummyInMyPocket;
     const [activeTab, setActiveTab] = useState<"보험사" | "보장영역">("보험사")
 
+    interface Product {
+    company_name: string;
+    company_img: string;
+    company_href: string;
+    product_name: string;
+    subcategories: { subcategory_name: string }[];
+    contents: { keyword: string; summary: string }[];
+    monthly_premium: number;
+    }
+
     return(
-        <div>
+        <div style={{overflowY:"auto", minHeight:"100vh"}}> //viewheight 100% 채워라
             <div style={{
-                // position:"relative",
                 top:"80px",
                 backgroundColor:"#fff",
                 zIndex:10,
@@ -111,63 +120,76 @@ const Inmypocket:React.FC = () => {
                     <div style={{
                         overflow:"hidden", 
                         width:"100%", 
-                        // border:"2px solid black"
                         }}>
                         {/* 보험사 눌렀을 때 */}
                         <div style={{
                             display:"flex",
                             flexDirection:"column",
-                            // transform: activeTab === "보험사" ? "translateX(0%)" : "translateX(-150%)",
-                            // transition:"transform 0.5s ease-in-out",
-                            // border:"2px solid black"
                         }}>
                             {/*보험사-보장영역 구분*/}
                             <div style ={{
                                 width:"100%",
                                 flexShrink:0,
                             }}>
-                                {data.categories.map((category,i)=>(
-                                <div key={i}>
-                                    {activeTab === "보험사"
-                                    ? category.products.map((product,j)=>(
-                                        <PocketBar
-                                            key={j}
-                                            std={true}
-                                            std_content={product.company_name} // ✅ 이 부분만 유지
-                                        >
-                                            <RecommendCard
-                                            imgSrc={product.company_img}
-                                            title={product.product_name}
-                                            cancerKeywords={product.subcategories.map(s => s.subcategory_name)}
-                                            href={product.company_href}
-                                            contents={product.contents}
-                                            selected={true}
-                                            width="800px"
-                                            />
-                                        </PocketBar>
-                                        ))
-                                    : (
-                                        <PocketBar
-                                        key={i}
-                                        std={false}
-                                        std_content={category.category_name}
-                                        >
-                                        {category.products.map((product,j)=>(
-                                            <RecommendCard
-                                            key={j}
-                                            imgSrc={product.company_img}
-                                            title={product.product_name}
-                                            cancerKeywords={product.subcategories.map(s => s.subcategory_name)}
-                                            href={product.company_href}
-                                            contents={product.contents}
-                                            selected={true}
-                                            width="800px"
-                                            />
-                                        ))}
-                                        </PocketBar>
-                                    )}
-                                </div>
-                                ))}
+                                {data.categories.map((category,i)=>{
+                                    
+                                    const groupedProducts:any = {};
+
+                                    category.products.forEach((product)=>{
+                                        const name = product.company_name; //카테고리 별 개별 product 돌면서 product.company_name name으로 명명
+                                        if (!groupedProducts[name]) {
+                                            groupedProducts[name] = [];
+                                        }
+                                        groupedProducts[name].push(product);
+                                    });
+
+                                    return(
+
+                                    <div key={i}>
+                                        {activeTab === "보험사"
+                                        ? Object.keys(groupedProducts).map((company)=>(
+                                            <PocketBar
+                                                key={company}
+                                                std={true}
+                                                std_content={company}
+                                            >
+                                                {groupedProducts[company].map((product:Product,j:number)=>(
+                                                    <RecommendCard
+                                                    key={j}
+                                                    imgSrc={product.company_img}
+                                                    title={product.product_name}
+                                                    cancerKeywords={product.subcategories.map((s) => s.subcategory_name)}
+                                                    href={product.company_href}
+                                                    contents={product.contents}
+                                                    selected={true}
+                                                    width="800px"
+                                                    />
+                                                ))}
+                                            </PocketBar>
+                                            ))
+
+                                        : (
+                                            <PocketBar
+                                            key={i}
+                                            std={false}
+                                            std_content={category.category_name}
+                                            >
+                                            {category.products.map((product,k)=>(
+                                                <RecommendCard
+                                                key={k}
+                                                imgSrc={product.company_img}
+                                                title={product.product_name}
+                                                cancerKeywords={product.subcategories.map(s => s.subcategory_name)}
+                                                href={product.company_href}
+                                                contents={product.contents}
+                                                selected={true}
+                                                width="800px"
+                                                />
+                                            ))}
+                                            </PocketBar>
+                                        )}
+                                    </div>
+                                )})}
                             </div>
                         </div>
                     </div>
