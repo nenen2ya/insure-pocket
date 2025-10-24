@@ -4,56 +4,112 @@ import insurance from "../assets/img/insurance.png";
 import { useNavigate } from "react-router-dom";
 import Option from "../components/Option";
 import InsuranceCard from "../components/InsuranceCard";
-
-import { dummyReportData } from "../data/dummy_users_products";
+import { supabase } from "../lib/supabaseClient";
+import { useUser } from "../context/UserContext";
+import { companyImgs, defaultCompanyImg } from "../data/company_img";
 
 const Diagnose: React.FC = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const { user } = useUser();
   const [step, setStep] = useState(0); // 0=intro, 0.5=불러오기 완료 안내, 1~4=질문 단계, 5=완료'
-
-  const data = dummyReportData;
+  const [insuranceList, setInsuranceList] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [answers, setAnswers] = useState<{ [key: string]: string }>({});
+  const userId = localStorage.getItem("user_id");
 
   // 질문 리스트
   const questions = [
     {
+      key: "drinking",
       category: "음주",
       question: "최근 한 달 동안 주에 음주량이 어떻게 되나요?",
-      options: ["주 1병 미만", "주 1-3병", "주 4병 이상"],
+      options: [
+        {label : "주 1병 미만", value : "none"}, 
+        {label : "주 1-3병", value : "weekly_3"}, 
+        {label : "주 4병 이상", value : "weekly_4_plus"}],
     },
     {
+      key: "smoking",
       category: "흡연",
       question: "흡연",
-      options: ["비흡연자", "하루 10개비 이하", "하루 10개비 초과"],
+      options: [
+        {label : "비흡연자", value : "none"},
+        {label : "하루 10개비 이하", value: "less_than_10"},
+        {label : "하루 10개비 초과", value: "more_than_10"}],
     },
     {
+      key: "drive_license",
       category: "운전",
       question: "운전",
-      options: ["매주 3시간 미만", "매주 3시간 이상"],
+      options: [
+        {label : "매주 3시간 미만", value: "NO"},
+        {label : "매주 3시간 이상", value: "YES"}],
     },
     {
+      key: "job",
       category: "직업",
       question: "직업군",
       options: [
-          "전문가 및 관련 종사자",
-          "사무 종사자 및 관리자",
-          "서비스 종사자",
-          "판매 종사자",
-          "농림어업 숙련 종사자",
-          "기능원 및 관련 기능 종사자",
-          "장치·기계 조작 및 조립 종사자",
-          "단순 노무 종사자",
-          "군인"
+          {label : "전문가 및 관련 종사자", value: "low"},
+          {label : "사무 종사자 및 관리자", value: "low"},
+          {label : "서비스 종사자", value: "low"},
+          {label : "판매 종사자", value: "low"},
+          {label : "농림어업 숙련 종사자", value: "high"},
+          {label : "기능원 및 관련 기능 종사자", value: "high"},
+          {label : "장치·기계 조작 및 조립 종사자", value: "high"},
+          {label : "단순 노무 종사자", value: "high"},
+          {label : "군인", value: "high"},
         ]
       }
   ];
 
-  // 질문 선택 시 다음 단계로 이동
-  const handleSelect = () => {
-    if (step < questions.length) {
-      setStep((prev) => prev + 1);
-    } else {
-      setStep(5);
+  // 보험 데이터 불러오기
+  const fetchInsuranceData = async () => {
+    if (!user?.id) return;
+    setLoading(true);
+
+    try {
+    const response = await fetch(
+      `https://insure-pocket-back-1.onrender.com/products/${user.id}`
+    );
+
+    if (!response.ok) {
+      throw new Error("서버 응답 오류");
     }
+
+    const result = await response.json();
+    setInsuranceList(result.user_products || []); // ✅ 백엔드에서 JSON 배열로 내려주면 그대로 세팅
+  } catch (error) {
+    console.error("보험정보 불러오기 실패:", error);
+  } finally {
+    setLoading(false);
+  }
+  };
+
+  // 옵션 선택 시
+  console.log("현재 유저:", user);
+
+  const handleSelect = async (value: string) => {
+    const currentQ = questions[step - 1];
+
+    // 로컬 상태 저장
+    setAnswers((prev) => ({ ...prev, [currentQ.key]: value }));
+
+    // Supabase에 저장
+    if (user?.id) {
+      const { error } = await supabase
+        .from("users") // 예: 진단 결과 테이블
+        .update({
+          [currentQ.key]: value,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", userId);
+
+      if (error) console.error("진단 결과 저장 실패:", error.message);
+      else console.log("유저 데이터 업데이트 성공");
+    }
+    if (step < questions.length) setStep((prev) => prev + 1);
+    else setStep(5);
   };
 
   return (
@@ -86,7 +142,7 @@ const Diagnose: React.FC = () => {
               }}
             >
               <p style={{ fontSize: 48, fontWeight: "bold", fontStyle: "normal", margin: 0}}>
-                {data.user_name}님
+                {user?.user_name}님
               </p>
               <p style={{ fontSize: 40, fontWeight: "bold", marginBottom: 0 }}>
                 의
@@ -126,7 +182,7 @@ const Diagnose: React.FC = () => {
             />
           </div>
 
-          <Button text="불러오기" onClick={() => setStep(0.5)} />
+          <Button text="불러오기" onClick={() => { setStep(0.5); fetchInsuranceData(); }} />
         </>
       )}
 
@@ -150,7 +206,7 @@ const Diagnose: React.FC = () => {
               }}
             >
               <p style={{ fontSize: 48, fontWeight: "bold", fontStyle: "normal", margin: 0}}>
-                {data.user_name}님
+                {user?.user_name}님
               </p>
               <p style={{ fontSize: 40, fontWeight: "bold", marginBottom: 0 }}>
                 의
@@ -172,7 +228,7 @@ const Diagnose: React.FC = () => {
                   margin: 0,
                 }}
               >
-                가입된 보험 {data.user_products.length}개
+                가입된 보험 {insuranceList.length}개
               </p>
               <p style={{ fontSize: 40, fontWeight: "bold", margin: 0 }}>
                 를 불러왔어요!
@@ -184,12 +240,12 @@ const Diagnose: React.FC = () => {
               alignSelf: "center",
               gap: 5
             }}>
-                {data.user_products.map((product) => (
+                {insuranceList.map((product,idx) => (
                 <InsuranceCard
-                  key={product.id}
-                  imgSrc={product.company_img}
+                  key={idx}
+                  imgSrc={companyImgs[product.company_name] || defaultCompanyImg}
                   title={product.product_name}
-                  price={product.monthly_premium.toLocaleString()} // 천단위 콤마
+                  price={product.monthly_premium?product.monthly_premium.toLocaleString() : "0"} // 천단위 콤마
                   width="400px"
                   height="84px"
                 />
@@ -273,8 +329,8 @@ const Diagnose: React.FC = () => {
             {questions[step - 1].options.map((option, idx) => (
               <Option
                 key={idx}
-                text={option}
-                onClick={handleSelect}
+                text={option.label}
+                onClick={() => handleSelect(option.value)}
               />
             ))}
           </div>
