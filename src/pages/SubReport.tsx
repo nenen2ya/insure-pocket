@@ -12,6 +12,8 @@ const SubReport: React.FC = () => {
 
   const categoryName = "암"; // 현재는 암 카테고리만 표시
   const categoryId = 1;
+  const storedUserId = localStorage.getItem("user_id");
+  const userId = storedUserId ? Number(storedUserId) : undefined;
 
   useEffect(() => {
     const userId = localStorage.getItem("user_id");
@@ -110,21 +112,23 @@ const SubReport: React.FC = () => {
 
             return (
               <RecommendCard
-                key={p.id}
-                imgSrc={imgSrc}
-                title={p.product_name}
-                cancerKeywords={subcats.map(
-                  (s: any) => s.subcategory_name
-                )}
-                href={p.companies.url}
-                contents={[
-                  { keyword: p.keyword1, summary: p.summary1 },
-                  { keyword: p.keyword2, summary: p.summary2 },
-                  { keyword: p.keyword3, summary: p.summary3 },
-                ]}
-                selected={false}
-              />
-            );
+              key={p.id}
+              imgSrc={imgSrc}
+              title={p.product_name}
+              cancerKeywords={subcats.map((s: any) => s.subcategory_name)}
+              href={p.companies.url}
+              contents={[
+                { keyword: p.keyword1, summary: p.summary1 },
+                { keyword: p.keyword2, summary: p.summary2 },
+                { keyword: p.keyword3, summary: p.summary3 },
+              ]}
+              selected={false}
+              userId={userId} // 로그인한 사용자 id
+              productId={p.id} // 상품 id
+              apiUrl="https://insure-pocket-back-1.onrender.com/pockets" // FastAPI 주소
+            />
+
+                        );
           })}
         </ReportCard>
       </div>

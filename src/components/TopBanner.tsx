@@ -47,6 +47,12 @@ const TopBanner: React.FC = () => {
         <Link to="/diagnose" style={{ color: "#DB2777", fontWeight: 600 }}>
           진단하기
         </Link>
+        <Link to="/home" style={{ color: "black", textDecoration: "none" }}>
+          보상!키움!
+        </Link>
+        <Link to="/home" style={{ color: "black", textDecoration: "none" }}>
+          인재채용
+        </Link>
       </nav>
 
       {/* ✅ 로그인 여부에 따라 다른 버튼 표시 */}
@@ -55,11 +61,11 @@ const TopBanner: React.FC = () => {
           <Link
             to={`/mypage/${user.id}`}
             style={{
-              backgroundColor: "#2563EB",
-              color: "white",
+              color: "#2563EB",
+              stroke:"#2563EB",
+              strokeWidth:2,
               padding: "12px 20px",
               borderRadius: "30px",
-              fontSize: "18px",
             }}
           >
             마이페이지
@@ -67,8 +73,7 @@ const TopBanner: React.FC = () => {
           <button
             onClick={handleLogout}
             style={{
-              backgroundColor: "#E11D48",
-              color: "white",
+              color: "#E11D48",
               padding: "12px 20px",
               borderRadius: "30px",
               fontSize: "18px",

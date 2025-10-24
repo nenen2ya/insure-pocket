@@ -223,6 +223,8 @@ const Inmypocket:React.FC = () => {
                                     },
                                     ]}
                                     selected={true}
+                                    userId={user.id} // ✅ 추가
+                                    productId={item.products.id} // ✅ 추가
                                     width="800px"
                                     />
                                         
