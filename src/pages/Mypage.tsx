@@ -2,10 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import profileImg from "../assets/img/profile.jpg";
 import vectorwhite from "../assets/img/vectorwhite.png"
-import { useNavigate } from "react-router-dom";
-
-import { dummyReportData } from "../data/dummy_users_products";
-
+import { useNavigate, useParams } from "react-router-dom";
+import { supabase } from "../lib/supabaseClient";
+import { useEffect, useState } from "react";
 
 const MpCard = styled.div`
   border-bottom-right-radius: 20px;
@@ -62,7 +61,26 @@ const CardContent = styled.div`
 
 const Mypage: React.FC = () => {
   const navigate = useNavigate();
-  const data = dummyReportData
+  const { user_id } = useParams();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data, error } = await supabase
+        .from("users")
+        .select("id, user_name, nickname, age, gender, job")
+        .eq("id", user_id)
+        .single();
+
+      if (error) {
+        console.error("유저 정보 불러오기 실패:", error);
+      } else {
+        setUser(data);
+      }
+    };
+
+    if (user_id) fetchUser();
+  }, [user_id]);
 
   return (
     <div style={{
@@ -118,7 +136,7 @@ const Mypage: React.FC = () => {
             
             <div style={{
               display:"flex", alignItems:"baseline"}}>
-              <h2>{data.user_name}</h2>
+              <h2>{user?.user_name || "로딩 중..."}</h2>
               <span>님</span>
             </div>
           </div>
