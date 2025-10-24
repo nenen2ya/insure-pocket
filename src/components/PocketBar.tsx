@@ -45,7 +45,6 @@ interface PocketBarProps {
 }
 
 const PocketBar: React.FC<PocketBarProps> = ({
-    std,
     std_content,
     width="100%",
     height="100%",
@@ -103,7 +102,7 @@ const PocketBar: React.FC<PocketBarProps> = ({
                         border:"none",
                         cursor:"pointer",
                     }}>
-                        <p style={{fontSize: 20, color:"#2563EB", margin:0}}>
+                        <p style={{fontSize: 20, color:"#2563EB", margin:0, transition:"transform 0.5 ease"}}>
                             {open ? "닫기":"더보기"}
                         </p>
                         <div style={{width:18, height:18}}>
