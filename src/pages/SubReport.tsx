@@ -107,13 +107,13 @@ const SubReport: React.FC = () => {
             const p = productObj.product_info;
             const subcats = productObj.subcategory_info || [];
 
-            const imgSrc =
-              companyImgs[p.companies.company_name] || defaultCompanyImg;
+            // const imgSrc =
+            //   companyImgs[p.companies.company_name] || defaultCompanyImg;
 
             return (
               <RecommendCard
               key={p.id}
-              imgSrc={imgSrc}
+              imgSrc={companyImgs[p.companies.company_name] || defaultCompanyImg}
               title={p.product_name}
               cancerKeywords={subcats.map((s: any) => s.subcategory_name)}
               href={p.companies.url}
