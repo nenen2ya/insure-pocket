@@ -13,7 +13,7 @@ export const dummyReportData = {
       category: "cancer",
       company_name: "한화생명",
       product_name: "한화생명 암보험",
-      monthly_premium: 27500,
+      monthly_premium: 30000,
       company_img: hanhwa,
     },
     {

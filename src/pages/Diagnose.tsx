@@ -1,21 +1,17 @@
 import React, { useState } from "react";
 import Button from "../components/Button";
 import insurance from "../assets/img/insurance.png";
-import hanhwa from "../assets/img/company/hanhwa.png";
-import metlife from "../assets/img/company/metlife.png";
-import samsung from "../assets/img/company/samsung.png";
 import { useNavigate } from "react-router-dom";
 import Option from "../components/Option";
 import InsuranceCard from "../components/InsuranceCard";
 
+import { dummyReportData } from "../data/dummy_users_products";
+
 const Diagnose: React.FC = () => {
     const navigate = useNavigate();
-  const username = "윤시윤";
-  const nums = 3;
-  const imgsrcs = [hanhwa, metlife, samsung];
-  const titles = ["한화생명 보험", "메트라이프 보험", "삼성생명 보험"];
-  const prices = ["27,500", "10,000" , "32,000"];
-  const [step, setStep] = useState(0); // 0=intro, 0.5=불러오기 완료 안내, 1~4=질문 단계, 5=완료
+  const [step, setStep] = useState(0); // 0=intro, 0.5=불러오기 완료 안내, 1~4=질문 단계, 5=완료'
+
+  const data = dummyReportData;
 
   // 질문 리스트
   const questions = [
@@ -90,7 +86,7 @@ const Diagnose: React.FC = () => {
               }}
             >
               <p style={{ fontSize: 48, fontWeight: "bold", fontStyle: "normal", margin: 0}}>
-                {username}님
+                {data.user_name}님
               </p>
               <p style={{ fontSize: 40, fontWeight: "bold", marginBottom: 0 }}>
                 의
@@ -154,7 +150,7 @@ const Diagnose: React.FC = () => {
               }}
             >
               <p style={{ fontSize: 48, fontWeight: "bold", fontStyle: "normal", margin: 0}}>
-                {username}님
+                {data.user_name}님
               </p>
               <p style={{ fontSize: 40, fontWeight: "bold", marginBottom: 0 }}>
                 의
@@ -176,7 +172,7 @@ const Diagnose: React.FC = () => {
                   margin: 0,
                 }}
               >
-                가입된 보험 {nums}개
+                가입된 보험 {data.user_products.length}개
               </p>
               <p style={{ fontSize: 40, fontWeight: "bold", margin: 0 }}>
                 를 불러왔어요!
@@ -188,12 +184,16 @@ const Diagnose: React.FC = () => {
               alignSelf: "center",
               gap: 5
             }}>
-              <InsuranceCard imgSrc ={imgsrcs[0]} title={titles[0]} price={prices[0]} width="400px" height="84px">
-              </InsuranceCard>
-              <InsuranceCard imgSrc ={imgsrcs[1]} title={titles[1]} price={prices[1]} width="400px" height="84px">
-              </InsuranceCard>
-              <InsuranceCard imgSrc ={imgsrcs[2]} title={titles[2]} price={prices[2]} width="400px" height="84px">
-              </InsuranceCard>
+                {data.user_products.map((product) => (
+                <InsuranceCard
+                  key={product.id}
+                  imgSrc={product.company_img}
+                  title={product.product_name}
+                  price={product.monthly_premium.toLocaleString()} // 천단위 콤마
+                  width="400px"
+                  height="84px"
+                />
+              ))}
             </div>
           </div>
           <Button text="추가 진단하기" onClick={() => setStep(1)} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import InsuranceCard from "../components/InsuranceCard";
 import ReportCard from "../components/ReportCard";
 import SummaryGraph from "../components/SummaryGraph";
@@ -22,7 +22,9 @@ const Report: React.FC = () => {
   const ageAvg = report.premium_avg.find((p) => p.age_group === ageGroup(userInfo.user_age))?.avg || 0 ;
   const totalPremium = data.user_products.reduce((sum, product) => sum + product.monthly_premium, 0);
 
-  const types = ['암', '뇌', '심장','실손','치아','사망','장애','간병','치매'];
+  const [animate, setAnimate] = useState(false);
+    useEffect(() => {const timer = setTimeout(() => setAnimate(true), 300);
+      return() => clearTimeout(timer);}, []);
 
   return (
     // 내 보험 목록
@@ -148,7 +150,8 @@ const Report: React.FC = () => {
               <div
                 style={{
                   width: 90,
-                  height: Math.max(40, 120 * (totalPremium / Math.max(ageAvg || 1, totalPremium || 1))),
+                  height: animate ?
+                    Math.max(40, 120 * (totalPremium / Math.max(ageAvg || 1, totalPremium || 1))) : 0,
                   background: "#DB2777",
                   borderTopLeftRadius: 30,
                   borderTopRightRadius: 30,
@@ -185,7 +188,8 @@ const Report: React.FC = () => {
               <div
                 style={{
                   width: 90,
-                  height: Math.max(40, 120 * (ageAvg / Math.max(ageAvg || 1, totalPremium || 1))),
+                  height: animate ?
+                    Math.max(40, 120 * (ageAvg / Math.max(ageAvg || 1, totalPremium || 1))): 0,
                   background: "#BFDBFE",
                   borderTopLeftRadius: 30,
                   borderTopRightRadius: 30,
@@ -218,12 +222,15 @@ const Report: React.FC = () => {
           gridTemplateColumns: "repeat(3,1fr)",
           gap: "20px"
         }}>
-          {types.map((type,i)=>(
+          {report.category_type.map((cat,i)=>(
             <SummaryGraph
-            key = {i}
-            type={type}/>
-          ))
-          }   
+              key = {i}
+              type={cat.category_name}
+              lack={cat.lack}
+              stand={cat.stand}
+              plus={cat.plus}
+              />
+          ))}   
           </div>
       </ReportCard>
       <ReportCard title="종합 코멘트" width= "980px" height="auto">

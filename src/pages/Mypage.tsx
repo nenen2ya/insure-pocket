@@ -4,6 +4,7 @@ import profileImg from "../assets/img/profile.jpg";
 import vectorwhite from "../assets/img/vectorwhite.png"
 import { useNavigate } from "react-router-dom";
 
+import { dummyReportData } from "../data/dummy_users_products";
 
 
 const MpCard = styled.div`
@@ -61,7 +62,7 @@ const CardContent = styled.div`
 
 const Mypage: React.FC = () => {
   const navigate = useNavigate();
-  const username = "윤시윤";
+  const data = dummyReportData
 
   return (
     <div style={{
@@ -117,7 +118,7 @@ const Mypage: React.FC = () => {
             
             <div style={{
               display:"flex", alignItems:"baseline"}}>
-              <h2>{username}</h2>
+              <h2>{data.user_name}</h2>
               <span>님</span>
             </div>
           </div>

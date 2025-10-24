@@ -36,22 +36,22 @@ export const ReportData={
         {
             category_id: 1,
             category_name:"암",
-            lack: 3,
+            lack: 5,
             stand: 1,
-            plus: 3,
+            plus: 10,
         },
         {
             category_id: 2,
             category_name:"뇌",
-            lack: 0,
-            stand: 1,
-            plus: 2
+            lack: 5,
+            stand: 10,
+            plus: 15
         },
         {
             category_id: 3,
             category_name:"심장",
-            lack: 0,
-            stand: 1,
+            lack: 1,
+            stand: 4,
             plus: 2
         },
         {
@@ -59,12 +59,12 @@ export const ReportData={
             category_name:"실손",
             lack: 0,
             stand: 1,
-            plus: 2
+            plus: 0
         },
         {
             category_id: 5,
             category_name:"치아",
-            lack: 0,
+            lack: 1,
             stand: 1,
             plus: 2
         },
@@ -73,7 +73,7 @@ export const ReportData={
             category_name:"사망",
             lack: 0,
             stand: 1,
-            plus: 2
+            plus: 0
         },
         {
             category_id: 7,
@@ -87,13 +87,13 @@ export const ReportData={
             category_name:"간병",
             lack: 0,
             stand: 1,
-            plus: 2
+            plus: 1
         },
         {
             category_id: 9,
             category_name:"치매",
-            lack: 0,
-            stand: 1,
+            lack: 4,
+            stand: 0,
             plus: 2
         },
     ]

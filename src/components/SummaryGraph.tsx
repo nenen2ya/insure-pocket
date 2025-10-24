@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useState, useEffect}from 'react';
 import vector from "../assets/img/vector.png";
 import { Link } from "react-router-dom";
 
@@ -10,9 +10,16 @@ interface SummaryGraphProps {
     type: string;
     width?: string;
     height?: string;
+    lack: number;
+    stand: number;
+    plus: number ;
 };
 
-const SummaryGraph: React.FC<SummaryGraphProps> = ({type}) => {
+const SummaryGraph: React.FC<SummaryGraphProps> = ({type, lack, stand, plus}) => {
+    const [animate, setAnimate] = useState(false);
+        useEffect(() => {const timer = setTimeout(() => setAnimate(true), 300);
+        return() => clearTimeout(timer);}, []);
+
     return (
         <Link 
         to = {type==='암'? "/subreport":"#"}
@@ -110,61 +117,47 @@ const SummaryGraph: React.FC<SummaryGraphProps> = ({type}) => {
                     backgroundColor:"#EFF6FF",
                     borderRadius:2
                 }}/>
-                {/* 세로 막대 그래프 */}
-                <div style={{
-                    display:"flex",
-                    flexDirection:"column",
-                    alignItems:"center",
-                    // border:"2px solid black"
-                }}>
-                    {/*부족 그래프*/}
-                    <div style={{
-                        width: 30,
-                        height: 100,
-                        background:"#DB2777",
-                        borderTopRightRadius:20,
-                        borderTopLeftRadius:20
-                    }}
-                    />
+                {/*막대 그래프 map*/}
+                {[
+                    {label:"부족", value: lack, color:"#DB2777"},
+                    {label:"적정", value: stand, color:"#BFDBFE"},
+                    {label:"여유", value: plus, color:"#2563EB"},
+                ].map(({label, value, color}, i) => (
+                    <div
+                        key={i}
+                        style={{
+                            display:"flex",
+                            flexDirection:"column",
+                            alignItems:"center",
+                            position:"relative"
+                        }}
+                    >
+                        {/*숫자 라벨*/}
+                        <span style={{
+                        position:"absolute",
+                        bottom:`${animate ? (value/Math.max(lack, stand, plus,1))*100+50 : 50 }px`,
+                        fontSize:10,
+                        fontWeight:600,
+                        color:"#000000",
+                        transition:"bottom 0.3s ease"
+                        }}>
+                            {value}
+                        </span>
 
-                    <p style={{fontSize: 14, marginTop: 8, color:"#000000"}}>부족</p>
-                </div>         
-                <div style={{
-                    display:"flex",
-                    flexDirection:"column",
-                    alignItems:"center",
-                    // border:"2px solid black"
-                }}>
-                    {/*적정 그래프*/}
-                    <div style={{
-                        width: 30,
-                        height: 60,
-                        background:"#BFDBFE",
-                        borderTopRightRadius:20,
-                        borderTopLeftRadius:20
-                    }}
-                    />
-
-                    <p style={{fontSize: 14, marginTop: 8, color:"#000000"}}>적정</p>
-                </div>         
-                <div style={{
-                    display:"flex",
-                    flexDirection:"column",
-                    alignItems:"center",
-                    // border:"2px solid black"
-                }}>
-                    {/*여유 그래프*/}
-                    <div style={{
-                        width: 30,
-                        height: 40,
-                        background:"#2563EB",
-                        borderTopRightRadius:20,
-                        borderTopLeftRadius:20
-                    }}
-                    />
-                    
-                    <p style={{fontSize: 14, marginTop: 8, color:"#000000"}}>여유</p>
-                </div>
+                        {/* 막대그래프 */}
+                        <div
+                            style={{
+                                width:30,
+                                height: animate ? `${(value/Math.max(lack, stand, plus, 1))*100}px`: "0px",
+                                background: color,
+                                borderTopLeftRadius: 20,
+                                borderTopRightRadius: 20,
+                                transition:"height 0.4s ease"
+                            }}
+                        />
+                        <p style ={{fontSize: 14, marginTop: 8, color:"#000000"}}>{label}</p>
+                    </div>
+                ))}
             </div>
         </Link>
     );
