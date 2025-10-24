@@ -12,7 +12,6 @@ const Report: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [animate, setAnimate] = useState(false);
 
-  // ✅ 데이터 로드
   useEffect(() => {
     const userId = localStorage.getItem("user_id");
     if (!userId) {
@@ -22,7 +21,6 @@ const Report: React.FC = () => {
 
     const fetchData = async () => {
       try {
-        // 병렬로 두 API 호출
         const [userRes, reportRes] = await Promise.all([
           fetch(`https://insure-pocket-back-1.onrender.com/users/${userId}`),
           fetch(`https://insure-pocket-back-1.onrender.com/reports/${userId}`)
