@@ -30,7 +30,7 @@ const TopBanner: React.FC = () => {
 
   return (
     <header style={bannerStyle}>
-      <Link to="/" style={{ display: "flex", alignItems: "center" }}>
+      <Link to="/home" style={{ display: "flex", alignItems: "center" }}>
         <h2 style={{ color: "#1E3A8A", fontWeight: 700, whiteSpace: "nowrap" }}>
           인슈어포켓
         </h2>
@@ -38,10 +38,10 @@ const TopBanner: React.FC = () => {
       </Link>
 
       <nav style={{ display: "flex", gap: "100px", alignItems: "center" }}>
-        <Link to="/" style={{ color: "black", textDecoration: "none" }}>
+        <Link to="/home" style={{ color: "black", textDecoration: "none" }}>
           보험료비교
         </Link>
-        <Link to="/" style={{ color: "black", textDecoration: "none" }}>
+        <Link to="/home" style={{ color: "black", textDecoration: "none" }}>
           전문가 찾기
         </Link>
         <Link to="/diagnose" style={{ color: "#DB2777", fontWeight: 600 }}>

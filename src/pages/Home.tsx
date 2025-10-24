@@ -40,17 +40,17 @@ const Home: React.FC = () => {
 
       >
         <SwiperSlide>
-          <Link to="/">
+          <Link to="/home">
             <img src={img1} alt="slide1" style={{ width: 800, aspectRatio: "5 / 3", objectFit: "cover" }} />
           </Link>
         </SwiperSlide>
         <SwiperSlide>
-          <Link to="/">
+          <Link to="/home">
             <img src={img2} alt="slide2" style={{ width: 800, aspectRatio: "5 / 3", objectFit: "cover" }} />
           </Link>
         </SwiperSlide>
         <SwiperSlide>
-          <Link to="/">
+          <Link to="/home">
             <img src={img3} alt="slide3" style={{ width: 800, aspectRatio: "5 / 3", objectFit: "cover" }} />
           </Link>
         </SwiperSlide>
