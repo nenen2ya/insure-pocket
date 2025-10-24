@@ -3,6 +3,7 @@ import ReportCard from "../components/ReportCard";
 import PocketBar from '../components/PocketBar';
 import RecommendCard from '../components/RecommendCard';
 import { useUser } from "../context/UserContext";
+import { companyImgs, defaultCompanyImg } from "../data/company_img";
 
 const Inmypocket:React.FC = () => {
     const { user } = useUser();
@@ -201,7 +202,7 @@ const Inmypocket:React.FC = () => {
                                         
                                     <RecommendCard
                                     key={i}
-                                    imgSrc={item.products?.companies?.company_img ?? ""}
+                                    imgSrc={companyImgs[item.products?.companies?.company_name ?? ""] || defaultCompanyImg}
                                     title={item.products?.product_name ?? "상품명 없음"}
                                     cancerKeywords={item.products.coverage.map(
                                         (c: any) => c.subcategories.name
@@ -275,7 +276,7 @@ const Inmypocket:React.FC = () => {
                                     {grouped[category].map((item, j)=>(
                                         <RecommendCard
                                         key={j}
-                                        imgSrc={item.products?.companies?.company_img ?? ""}
+                                        imgSrc={companyImgs[item.products?.companies?.company_name ?? ""] || defaultCompanyImg}
                                         title={item.products?.product_name ?? "상품명 없음"}
                                         cancerKeywords={item.products?.coverage?.map(
                                             (c: any) => c?.subcategories?.name ?? ""

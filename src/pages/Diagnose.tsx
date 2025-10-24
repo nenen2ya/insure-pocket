@@ -189,6 +189,33 @@ const Diagnose: React.FC = () => {
       {/*불러오기 완료*/}
       {step === 0.5 && (
         <>
+        {loading ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "400px",
+              gap: 20,
+            }}
+          >
+            <p
+              style={{
+                fontSize: 48,
+                fontWeight: "bold",
+                color: "#2563EB",
+                margin: 0,
+              }}
+            >
+              보험 정보를 불러오는 중입니다...
+            </p>
+            <p style={{ fontSize: 20, color: "#757575" }}>
+              잠시만 기다려주세요 🕐
+            </p>
+          </div>
+        ) : (
+          <>
           <div
             style={{
               display: "flex",
@@ -253,10 +280,10 @@ const Diagnose: React.FC = () => {
             </div>
           </div>
           <Button text="추가 진단하기" onClick={() => setStep(1)} />
+          </>
+        )}
         </>
       )}
-
-
         {/* 질문 단계 */}
       {step > 0.5 && step <= questions.length && (
         <>
