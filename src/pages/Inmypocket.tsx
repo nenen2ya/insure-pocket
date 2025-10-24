@@ -2,8 +2,10 @@ import React, {useState, useEffect} from 'react';
 import ReportCard from "../components/ReportCard";
 import PocketBar from '../components/PocketBar';
 import RecommendCard from '../components/RecommendCard';
+import { useUser } from "../context/UserContext";
 
 const Inmypocket:React.FC = () => {
+    const { user } = useUser();
     const [data, setData] = useState<PocketItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<"보험사" | "보장영역">("보험사")
@@ -42,27 +44,41 @@ const Inmypocket:React.FC = () => {
     products?: Product;
     }
 
-      // ✅ 백엔드에서 데이터 가져오기
     const fetchPocketData = async () => {
         try {
+        if (!user?.id) {
+            console.warn("❗ 아직 user.id를 불러오지 못했습니다.");
+            return;
+        }
+
         const response = await fetch(
-            "https://insure-pocket-back-1.onrender.com/pockets/7"
+            `https://insure-pocket-back-1.onrender.com/pockets/${user.id}`
         );
         if (!response.ok) throw new Error("서버 응답 오류");
 
         const result = await response.json();
-        setData(result); // result는 배열 형태임 (예시 JSON 참고)
+        setData(result);
         } catch (error) {
+        console.error("데이터 불러오기 실패:", error);
         } finally {
         setLoading(false);
         }
     };
 
+    // ✅ user.id가 생겼을 때만 fetch 실행
     useEffect(() => {
+        if (user?.id) {
         fetchPocketData();
-    }, []);
+        }
+    }, [user]);
 
-    if (loading) return <p style={{ margin: "100px" }}>불러오는 중...</p>;
+    if (!user) {
+        return <p style={{ margin: "100px" }}>로그인 정보를 불러오는 중...</p>;
+    }
+
+    if (loading) {
+        return <p style={{ margin: "100px" }}>데이터 불러오는 중...</p>;
+    }
 
     return(
         <div style={{overflowY:"auto", minHeight:"100vh"}}> //viewheight 100% 채워라
