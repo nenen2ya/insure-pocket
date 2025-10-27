@@ -2,7 +2,7 @@ import React from "react";
 
 interface ButtonProps {
   text: string;
-  color?: string;   // ✅ 선택적 prop
+  color?: string;
   width?: string;
   height?: string;
   backgroundColor?: string;

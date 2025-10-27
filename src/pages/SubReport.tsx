@@ -107,9 +107,6 @@ const SubReport: React.FC = () => {
             const p = productObj.product_info;
             const subcats = productObj.subcategory_info || [];
 
-            // const imgSrc =
-            //   companyImgs[p.companies.company_name] || defaultCompanyImg;
-
             return (
               <RecommendCard
               key={p.id}

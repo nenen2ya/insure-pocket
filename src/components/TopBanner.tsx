@@ -37,7 +37,7 @@ const TopBanner: React.FC = () => {
         <img src={logo} alt="로고" style={{ width: "80px" }} />
       </Link>
 
-      <nav style={{ display: "flex", gap: "100px", alignItems: "center" }}>
+      <nav style={{ display: "flex", gap: "100px", alignItems: "center", fontSize:20 }}>
         <Link to="/home" style={{ color: "black", textDecoration: "none" }}>
           보험료비교
         </Link>

@@ -14,7 +14,6 @@ const Diagnose: React.FC = () => {
   const [step, setStep] = useState(0); // 0=intro, 0.5=불러오기 완료 안내, 1~4=질문 단계, 5=완료'
   const [insuranceList, setInsuranceList] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-  const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const userId = localStorage.getItem("user_id");
 
   // 질문 리스트
@@ -63,6 +62,7 @@ const Diagnose: React.FC = () => {
       }
   ];
 
+  
   // 보험 데이터 불러오기
   const fetchInsuranceData = async () => {
     if (!user?.id) return;
@@ -92,8 +92,7 @@ const Diagnose: React.FC = () => {
   const handleSelect = async (value: string) => {
     const currentQ = questions[step - 1];
 
-    // 로컬 상태 저장
-    setAnswers((prev) => ({ ...prev, [currentQ.key]: value }));
+  // (local answers state removed — results are saved directly to Supabase)
 
     // Supabase에 저장
     if (user?.id) {
@@ -358,20 +357,73 @@ const Diagnose: React.FC = () => {
                 key={idx}
                 text={option.label}
                 onClick={() => handleSelect(option.value)}
+                showTooltip={step === 4} // ✅ 4번째 질문일 때만 툴팁 표시
               />
             ))}
           </div>
         </>
       )}
 
-      {/* 완료 화면 */}
-      {step === 5 && (
-        <div>
-          <h2 style= {{fontSize:35}}>진단이 완료되었습니다</h2>
-          <p>결과를 기반으로 맞춤 보험 상품을 추천해드릴게요.</p>
-          <Button text="결과 보기" onClick={() => navigate("/report")} />
-          </div>
-      )}
+{step === 5 && (
+  <div style={{
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "60px 20px",
+    gap: "32px",
+  }}> 
+    {/* 체크 아이콘 */}
+    <div style={{
+      width: "100px",
+      height: "100px",
+      borderRadius: "50%",
+      backgroundColor: "#2563EB",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      boxShadow: "0 4px 20px rgba(37, 99, 235, 0.3)",
+    }}>
+      <span style={{ 
+        fontSize: "60px", 
+        color: "white",
+        fontWeight: "bold",
+      }}>✓</span>
+    </div>
+
+    <div style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "16px",
+    }}>
+      <h2 style={{
+        fontSize: 48,
+        fontWeight: "bold",
+        color: "#000",
+        margin: 0,
+        textAlign: "center",
+      }}>
+        진단이 완료되었습니다
+      </h2> 
+      
+      <p style={{
+        fontSize: 24,
+        color: "#757575",
+        margin: 0,
+        textAlign: "center",
+        lineHeight: 1.5,
+      }}>
+        결과를 기반으로 맞춤 보험 상품을 추천해드릴게요.
+      </p> 
+    </div>
+    
+    <Button 
+      text="결과 보기" 
+      onClick={() => navigate("/report")} 
+    /> 
+  </div> 
+)}
     </div>
   );
 };

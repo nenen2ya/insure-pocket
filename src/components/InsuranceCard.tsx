@@ -21,14 +21,15 @@ const InsuranceCard: React.FC<InsuranceCardProps> = ({ imgSrc, title, price }) =
         alignItems: "center",
         padding: "16px 28px",
         boxSizing: "border-box",
+        gap:20
       }}
     >
-      <div style={{ display: "flex", flexDirection:"column", alignItems: "flex-start",margin:0}}>
+      <div style={{ display: "flex", flexDirection:"column", alignItems: "flex-start",margin:0,}}>
         {imgSrc && (
           <img
             src={imgSrc}
             alt="보험사"
-            style={{ width: 40, height: 40, objectFit: "contain" }}
+            style={{ width: 40, height: 20, objectFit: "contain" }}
           />
         )}
         <p style={{ fontSize: "15px", margin: 0, }}>{title}</p>

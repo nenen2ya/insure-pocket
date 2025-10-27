@@ -49,47 +49,54 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
 
   const toggle = () => setOpen(!open);
 
-  // ✅ 포켓 담기 함수
-  const handleAddToPocket = async () => {
-    if (!userId || !productId) {
-      alert("사용자 정보가 누락되었습니다.");
+// ✅ 포켓 담기 함수
+const handleAddToPocket = async () => {
+  if (!userId || !productId) {
+    alert("사용자 정보가 누락되었습니다.");
+    return;
+  }
+
+  // 👉 이동 여부만 묻는 confirm (포켓 담기는 무조건 진행)
+  const moveToPocket = window.confirm("인마이포켓으로 이동할까요?");
+
+  try {
+    setIsLoading(true);
+
+    // ✅ 포켓 담기 API 호출 (이건 항상 실행)
+    const response = await fetch(`${apiUrl}/${userId}/${productId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      const errorBody = await response.json().catch(() => null);
+      console.error("Error response body:", errorBody);
+      alert(errorBody?.detail || `오류 발생: ${response.status}`);
       return;
     }
 
-    const confirmAdd = window.confirm("인마이포켓으로 이동할까요?");
-    if (!confirmAdd) return;
+    const result = await response.json();
+    alert(result.message || "포켓에 담았습니다!");
 
-    try {
-      setIsLoading(true);
-      const response = await fetch(`${apiUrl}/${userId}/${productId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-    if (!response.ok) {
-        // HTTP 오류 상태인 경우
-        const errorBody = await response.json().catch(() => null);
-        console.error("Error response body:", errorBody);
-        alert(errorBody?.detail || `오류 발생: ${response.status}`);
-        return;
-        }
-
-        const result = await response.json();
-        alert(result.message || "포켓에 담았습니다!");
-        window.location.href = "/inmypocket";
-    } catch (error) {
-        console.error("서버 요청 중 예외 발생:", error);
-        alert("서버 요청 중 오류가 발생했습니다.");
-    } finally {
-        setIsLoading(false);
+    // ✅ 확인을 눌렀을 때만 이동
+    if (moveToPocket) {
+      window.location.href = "/inmypocket";
     }
-    };
+
+  } catch (error) {
+    console.error("서버 요청 중 예외 발생:", error);
+    alert("서버 요청 중 오류가 발생했습니다.");
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
     // ✅ 포켓 빼기 함수
     const handleRemoveFromPocket = async () => {
-        console.log("🧩 handleRemoveFromPocket 실행됨!", userId, productId);
+    console.log("🧩 handleRemoveFromPocket 실행됨!", userId, productId);
 
     if (!userId || !productId) {
         alert("사용자 정보가 누락되었습니다.");
@@ -236,27 +243,71 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
       </div>
 
       {/* 더보기 토글 영역 */}
-      <div
-        style={{
-          width: "100%",
-          maxHeight: open ? "300px" : "0px",
-          overflow: "hidden",
-          display: "flex",
-          flexDirection: "column",
-          gap: "20px",
-          transition: "all 0.4s ease",
-          opacity: open ? 1 : 0,
-        }}
-      >
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          {contents &&
-            contents.map((content, i) => (
-              <div key={i}>
-                <h2>{content.keyword}</h2>
-                <h3>{content.summary}</h3>
-              </div>
-            ))}
-        </div>
+<div 
+  style={{ 
+    width: "100%", 
+    maxHeight: open ? "500px" : "0px", 
+    overflow: "hidden", 
+    display: "flex", 
+    flexDirection: "column", 
+    gap: "20px", 
+    transition: "all 0.4s ease", 
+    opacity: open ? 1 : 0, 
+  }} 
+> 
+  <div style={{ 
+    display: "flex", 
+    flexDirection: "column", 
+    gap: "16px", 
+    margin: "20px 10px", 
+    alignItems: "flex-start", 
+    textAlign: "left",
+  }}> 
+    {contents && 
+      contents.map((content, i) => ( 
+        <div 
+          key={i} 
+          style={{
+            gap: 0,
+            padding: "16px 20px",
+            backgroundColor: "#f8f9fa",
+            borderRadius: "12px",
+            width: "100%",
+            boxSizing: "border-box",
+            transition: "all 0.2s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = "#f0f2f5";
+            e.currentTarget.style.transform = "translateX(4px)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = "#f8f9fa";
+            e.currentTarget.style.transform = "translateX(0)";
+          }}
+        > 
+          <h2 style={{ 
+            margin: 0,
+            marginBottom: "8px",
+            fontSize: "18px",
+            fontWeight: "600",
+            color: "#2c3e50",
+            letterSpacing: "-0.3px",
+          }}>
+            {content.keyword}
+          </h2> 
+          <p style={{
+            margin: 0,
+            fontSize: "14px",
+            lineHeight: "1.6",
+            color: "#5a6c7d",
+            fontWeight: "400",
+          }}>
+            {content.summary}
+          </p> 
+        </div> 
+      ))} 
+  </div>
+
 
         <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
           {selected === false ? (
@@ -286,7 +337,7 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
           />
         </div>
       </div>
-    </div>
+      </div>
   );
 };
 
