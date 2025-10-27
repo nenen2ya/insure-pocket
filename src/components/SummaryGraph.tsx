@@ -139,7 +139,7 @@ const SummaryGraph: React.FC<SummaryGraphProps> = ({type, lack, stand, plus}) =>
                         fontSize:10,
                         fontWeight:600,
                         color:"#000000",
-                        transition:"bottom 0.3s ease"
+                        transition:"bottom 1.6s ease"
                         }}>
                             {value}
                         </span>
@@ -152,7 +152,7 @@ const SummaryGraph: React.FC<SummaryGraphProps> = ({type, lack, stand, plus}) =>
                                 background: color,
                                 borderTopLeftRadius: 20,
                                 borderTopRightRadius: 20,
-                                transition:"height 0.4s ease"
+                                transition:"height 1.6s ease"
                             }}
                         />
                         <p style ={{fontSize: 14, marginTop: 8, color:"#000000"}}>{label}</p>

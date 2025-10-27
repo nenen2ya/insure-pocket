@@ -42,8 +42,8 @@ const Diagnose: React.FC = () => {
       category: "운전",
       question: "운전",
       options: [
-        {label : "매주 3시간 미만", value: "NO"},
-        {label : "매주 3시간 이상", value: "YES"}],
+        {label : "운전면허 미보유", value: "NO"},
+        {label : "운전면허 보유", value: "YES"}],
     },
     {
       key: "job",

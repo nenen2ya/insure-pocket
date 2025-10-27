@@ -203,7 +203,7 @@ const Report: React.FC = () => {
                       background: "#DB2777",
                       borderTopLeftRadius: 30,
                       borderTopRightRadius: 30,
-                      transition: "height 0.4s ease-in-out",
+                      transition: "height 0.5s ease-in-out",
                     }}
                   />
                   <div
@@ -245,7 +245,7 @@ const Report: React.FC = () => {
                       background: "#BFDBFE",
                       borderTopLeftRadius: 30,
                       borderTopRightRadius: 30,
-                      transition: "height 0.4s ease-in-out",
+                      transition: "height 0.5s ease-in-out",
                     }}
                   />
                   <div

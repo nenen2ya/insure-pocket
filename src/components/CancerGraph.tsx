@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 // import { dummyCancerData } from '../data/dummy_cancergraph';
 
@@ -14,6 +14,11 @@ const CancerGraph: React.FC<CancerGraphProps> = ({
     coverage_amount 
 }) => {
     // const data = dummyCancerData;
+    const [animate, setAnimate] = useState(false);
+    useEffect(() => {
+        const timer = setTimeout(() => setAnimate(true), 300);
+        return() => clearTimeout(timer);},[]);
+
     
     return (
         <div style={{ 
@@ -86,7 +91,7 @@ const CancerGraph: React.FC<CancerGraphProps> = ({
                         position: "absolute",
                         left: 0,
                         marginLeft:"0px",
-                        width: `${((coverage_amount)/(recommended_coverage*2))*100}%`,
+                        width: animate ? `${((coverage_amount)/(recommended_coverage*2))*100}%`: '0%',
                         height: 30,
                         top: "50%",
                         transform:"translateY(-50%)",
@@ -94,7 +99,7 @@ const CancerGraph: React.FC<CancerGraphProps> = ({
                         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
                         borderTopRightRadius: 20,
                         borderBottomRightRadius: 20,
-                        transition: "width 0.3s ease"
+                        transition: "width 1.2s ease"
                     }}>
                         {/* 보장금액 */}
                         <div
