@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Mypage from "./pages/Mypage";
 import Report from "./pages/Report";
@@ -19,6 +19,7 @@ const App: React.FC = () => {
       <UserProvider>
       <TopBanner />
       <Routes>
+        <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/home" element={<Home />} />
         <Route path="/home/:user_id" element={<Home />} />
         <Route path="/mypage/:user_id" element={<Mypage />} />
