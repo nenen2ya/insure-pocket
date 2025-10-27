@@ -29,7 +29,6 @@ const Report: React.FC = () => {
         const userData = await userRes.json();
         const reportData = await reportRes.json();
 
-        // category_type 더미 중 ‘암’만 실제 값으로 교체
         const fullCategory = ReportData.category_type.map(cat => 
           cat.category_id === 1
             ? { ...cat, lack: reportData.lack, stand: reportData.stand, plus: reportData.plus }
@@ -57,7 +56,6 @@ const Report: React.FC = () => {
   if (loading || !userInfo || !report)
     return <div style={{ paddingTop: "120px" }}>⏳ 데이터를 불러오는 중입니다...</div>;
 
-  // ✅ 계산 로직
   const ageGroup = (age: number) => {
     if (age < 30) return 20;
     if (age < 40) return 30;
@@ -72,7 +70,6 @@ const Report: React.FC = () => {
   const totalPremium = report.total_monthly_premium || 0;
 
   return (
-    // 🎨 디자인은 그대로 유지
     <div style={{ textAlign: "center", marginTop: "100px" }}>
       <div style={{ display: "flex", flexDirection: "row", alignItems: "baseline", gap: 10 }}>
         <h2 style={{ fontSize: 40 }}>{userInfo.user_name}님 보험</h2>
@@ -89,9 +86,9 @@ const Report: React.FC = () => {
       flexDirection: "column",
       alignItems: "center",
       gap: 10,
-      maxHeight: "300px",        // ✅ 최대 높이 설정
-      overflowY: "auto",          // ✅ 세로 스크롤 활성화
-      paddingRight: "10px",       // ✅ 스크롤바가 내용 가리지 않게 약간 여백
+      maxHeight: "300px",
+      overflowY: "auto",
+      paddingRight: "10px",
     }}
   >
     {report.products.map((item: any) => (
@@ -109,8 +106,6 @@ const Report: React.FC = () => {
   </div>
 </ReportCard>
 
-
-          {/* 📊 월 보험료 비교 */}
           <ReportCard title="월 보험료">
             <div
               style={{
@@ -145,8 +140,6 @@ const Report: React.FC = () => {
                 </p>
               </div>
             </div>
-
-            {/* 막대 그래프 */}
             <div
               style={{
                 position: "relative",
@@ -179,7 +172,6 @@ const Report: React.FC = () => {
                     zIndex: 0,
                   }}
                 />
-                {/* 내 보험료 */}
                 <div
                   style={{
                     display: "flex",
@@ -220,8 +212,6 @@ const Report: React.FC = () => {
                     <span>{totalPremium.toLocaleString()}원</span>
                   </div>
                 </div>
-
-                {/* 또래 평균 */}
                 <div
                   style={{
                     display: "flex",
@@ -269,7 +259,6 @@ const Report: React.FC = () => {
           </ReportCard>
         </div>
 
-        {/* 📊 요약 섹션 */}
         <ReportCard title="요약" width="980px" height="fit-content">
           <div
             style={{
@@ -290,7 +279,6 @@ const Report: React.FC = () => {
           </div>
         </ReportCard>
 
-        {/* 💬 종합 코멘트 */}
         <ReportCard title="종합 코멘트" width="980px" height="auto">
           <div
             style={{

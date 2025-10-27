@@ -1,11 +1,11 @@
 import React from "react";
 
 interface MyPageCardProps {
-  imgSrc: string; // 이미지 경로
-  title: string;  // 상품명
-  price: string | number;  // 가격 (예: "월 보험료 27,500원")
-  width?: string; // 카드 너비
-  height?: string; // 카드 높이
+  imgSrc: string;
+  title: string;
+  price: string | number;
+  width?: string;
+  height?: string;
 }
 
 const MyPageCard: React.FC<MyPageCardProps> = ({ imgSrc, title, price }) => {

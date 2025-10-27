@@ -27,9 +27,9 @@ interface RecommendCardProps {
   width?: string;
   height?: string;
   selected: boolean;
-  userId?: number; // ✅ 유저 아이디
-  productId?: number; // ✅ 상품 아이디
-  apiUrl?: string; // ✅ FastAPI 서버 주소 (예: "https://your-fastapi.onrender.com")
+  userId?: number;
+  productId?: number;
+  apiUrl?: string;
 }
 
 const RecommendCard: React.FC<RecommendCardProps> = ({
@@ -49,20 +49,17 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
 
   const toggle = () => setOpen(!open);
 
-// ✅ 포켓 담기 함수
 const handleAddToPocket = async () => {
   if (!userId || !productId) {
     alert("사용자 정보가 누락되었습니다.");
     return;
   }
 
-  // 👉 이동 여부만 묻는 confirm (포켓 담기는 무조건 진행)
   const moveToPocket = window.confirm("인마이포켓으로 이동할까요?");
 
   try {
     setIsLoading(true);
 
-    // ✅ 포켓 담기 API 호출 (이건 항상 실행)
     const response = await fetch(`${apiUrl}/${userId}/${productId}`, {
       method: "POST",
       headers: {
@@ -80,7 +77,6 @@ const handleAddToPocket = async () => {
     const result = await response.json();
     alert(result.message || "포켓에 담았습니다!");
 
-    // ✅ 확인을 눌렀을 때만 이동
     if (moveToPocket) {
       window.location.href = "/inmypocket";
     }
@@ -94,7 +90,6 @@ const handleAddToPocket = async () => {
 };
 
 
-    // ✅ 포켓 빼기 함수
     const handleRemoveFromPocket = async () => {
     console.log("🧩 handleRemoveFromPocket 실행됨!", userId, productId);
 
@@ -125,7 +120,7 @@ const handleAddToPocket = async () => {
 
         const result = await response.json();
         alert(result.message || "포켓에서 삭제되었습니다!");
-        window.location.reload(); // ✅ 새로고침으로 목록 갱신
+        window.location.reload();
     } catch (error) {
         console.error("서버 요청 중 예외 발생:", error);
         alert("서버 요청 중 오류가 발생했습니다.");
@@ -148,7 +143,6 @@ const handleAddToPocket = async () => {
         padding: "10px 20px",
       }}
     >
-      {/* 상단 기본 정보 */}
       <div
         style={{
           width: "100%",
@@ -242,7 +236,6 @@ const handleAddToPocket = async () => {
         </button>
       </div>
 
-      {/* 더보기 토글 영역 */}
 <div 
   style={{ 
     width: "100%", 

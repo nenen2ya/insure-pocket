@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import insurance from "../assets/img/insurance.png";
 import { useNavigate } from "react-router-dom";
@@ -11,12 +11,18 @@ import { companyImgs, defaultCompanyImg } from "../data/company_img";
 const Diagnose: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useUser();
-  const [step, setStep] = useState(0); // 0=intro, 0.5=불러오기 완료 안내, 1~4=질문 단계, 5=완료'
+  const [step, setStep] = useState(0);
   const [insuranceList, setInsuranceList] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const userId = localStorage.getItem("user_id");
 
-  // 질문 리스트
+  useEffect(() => {
+    if (!userId) {
+      alert("로그인이 필요합니다.");
+      navigate("/login");
+    }
+  }, [navigate, userId]);
+
   const questions = [
     {
       key: "drinking",
@@ -63,7 +69,6 @@ const Diagnose: React.FC = () => {
   ];
 
   
-  // 보험 데이터 불러오기
   const fetchInsuranceData = async () => {
     if (!user?.id) return;
     setLoading(true);
@@ -78,7 +83,7 @@ const Diagnose: React.FC = () => {
     }
 
     const result = await response.json();
-    setInsuranceList(result.user_products || []); // ✅ 백엔드에서 JSON 배열로 내려주면 그대로 세팅
+    setInsuranceList(result.user_products || []);
   } catch (error) {
     console.error("보험정보 불러오기 실패:", error);
   } finally {
@@ -86,18 +91,14 @@ const Diagnose: React.FC = () => {
   }
   };
 
-  // 옵션 선택 시
   console.log("현재 유저:", user);
 
   const handleSelect = async (value: string) => {
     const currentQ = questions[step - 1];
 
-  // (local answers state removed — results are saved directly to Supabase)
-
-    // Supabase에 저장
     if (user?.id) {
       const { error } = await supabase
-        .from("users") // 예: 진단 결과 테이블
+        .from("users")
         .update({
           [currentQ.key]: value,
           updated_at: new Date().toISOString(),
@@ -121,7 +122,6 @@ const Diagnose: React.FC = () => {
         flexDirection: "column",
         alignItems: "center",
       }}    >
-      {/* 초기 화면 */}
       {step === 0 && (
         <>
           <div
@@ -185,7 +185,6 @@ const Diagnose: React.FC = () => {
         </>
       )}
 
-      {/*불러오기 완료*/}
       {step === 0.5 && (
         <>
         {loading ? (
@@ -271,7 +270,7 @@ const Diagnose: React.FC = () => {
                   key={idx}
                   imgSrc={companyImgs[product.company_name] || defaultCompanyImg}
                   title={product.product_name}
-                  price={product.monthly_premium?product.monthly_premium.toLocaleString() : "0"} // 천단위 콤마
+                  price={product.monthly_premium?product.monthly_premium.toLocaleString() : "0"}
                   width="400px"
                   height="84px"
                 />
@@ -283,16 +282,13 @@ const Diagnose: React.FC = () => {
         )}
         </>
       )}
-        {/* 질문 단계 */}
       {step > 0.5 && step <= questions.length && (
         <>
             <div style={{ width: "75%", marginBottom: 20 }}>
 
-        {/* 진행 바 */}
       <div style={{ textAlign: "left", fontSize: 15, marginBottom: 4 }}>
         {step}/{questions.length}
       </div>
-
 
       <div
         style={{
@@ -314,7 +310,6 @@ const Diagnose: React.FC = () => {
       </div>
     </div>
 
-          { /* 질문*/}
           <div style={{ width: 900, display:"flex", flexDirection:"column", alignItems:"flex-start", padding:20, gap:20 }}>
             <div style={{
               display: "flex",
@@ -335,7 +330,6 @@ const Diagnose: React.FC = () => {
             }}>
               Q{step}
             </h3>
-            {/* 카테고리+질문 */}
             <div style={{
               display:"flex",
               flexDirection: "column",
@@ -351,13 +345,12 @@ const Diagnose: React.FC = () => {
               {questions[step - 1].question}</p>
             </div>
             </div>
-            {/* 선택 옵션 */}
             {questions[step - 1].options.map((option, idx) => (
               <Option
                 key={idx}
                 text={option.label}
                 onClick={() => handleSelect(option.value)}
-                showTooltip={step === 4} // ✅ 4번째 질문일 때만 툴팁 표시
+                showTooltip={step === 4}
               />
             ))}
           </div>
@@ -373,7 +366,6 @@ const Diagnose: React.FC = () => {
     padding: "60px 20px",
     gap: "32px",
   }}> 
-    {/* 체크 아이콘 */}
     <div style={{
       width: "100px",
       height: "100px",

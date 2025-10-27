@@ -77,14 +77,14 @@ const Login: React.FC = () => {
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
             style={{
-              width: "100%", // ✅ 부모 div 기준으로 100%
+              width: "100%",
               padding: "12px 16px",
               border: "1px solid #E5E7EB",
               borderRadius: "10px",
               fontSize: "15px",
               outline: "none",
               transition: "border 0.2s ease",
-              boxSizing: "border-box", // ✅ 패딩 포함 정확한 폭 계산
+              boxSizing: "border-box",
             }}
             onFocus={(e) => (e.target.style.border = "1px solid #2563EB")}
             onBlur={(e) => (e.target.style.border = "1px solid #E5E7EB")}
@@ -108,8 +108,6 @@ const Login: React.FC = () => {
             onFocus={(e) => (e.target.style.border = "1px solid #2563EB")}
             onBlur={(e) => (e.target.style.border = "1px solid #E5E7EB")}
           />
-
-          {/* ✅ input 폭과 완전히 동일 */}
           <button
             onClick={handleLogin}
             style={{
@@ -130,7 +128,6 @@ const Login: React.FC = () => {
             로그인
           </button>
         </div>
-
         <div
           style={{
             marginTop: "10px",

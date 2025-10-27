@@ -9,7 +9,7 @@ const TopBanner: React.FC = () => {
   const { user, logout } = useUser();
 
   const handleLogout = () => {
-    logout(); // 전역 상태 + localStorage 초기화
+    logout();
     alert("로그아웃 되었습니다 👋");
     navigate("/home");
   };
@@ -55,7 +55,6 @@ const TopBanner: React.FC = () => {
         </Link>
       </nav>
 
-      {/* ✅ 로그인 여부에 따라 다른 버튼 표시 */}
       {user ? (
         <div style={{ display: "flex", gap: "12px" }}>
           <Link

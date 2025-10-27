@@ -25,13 +25,13 @@ const Home: React.FC = () => {
     }}>
       <Swiper
         modules={[Autoplay, Pagination]}
-        spaceBetween={80}          // 슬라이드 간격
-        slidesPerView={1.5}          // 한 번에 보여줄 슬라이드 개수
-        centeredSlides={true}      // 중앙 정렬
-        loop={true}                // 무한 반복
+        spaceBetween={80}
+        slidesPerView={1.5}
+        centeredSlides={true}
+        loop={true}
         autoplay={{
-          delay: 2500,             // 2.5초마다 자동 전환
-          disableOnInteraction: false, // 사용자 조작 이후에도 계속 자동 재생
+          delay: 2500,
+          disableOnInteraction: false,
         }}
         style={{
           width:"90%",

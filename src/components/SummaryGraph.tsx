@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 function MyToggle() {
     return <img src={vector} alt="vector" style={{ width: "100%", height: "100%", objectFit: "contain" }}></img>
 }
-// 종합 요약 그래프
 interface SummaryGraphProps { 
     type: string;
     width?: string;
@@ -29,9 +28,7 @@ const SummaryGraph: React.FC<SummaryGraphProps> = ({type, lack, stand, plus}) =>
             flexDirection: "column",
             padding: 10,
             gap: 10,
-            // border:"2px solid black"
         }}>
-            {/* 헤더: 왼쪽 타입 라벨 + 오른쪽 더보기 */}    
             <div style={{
                 width:"100%",
                 display: "flex",
@@ -39,9 +36,7 @@ const SummaryGraph: React.FC<SummaryGraphProps> = ({type, lack, stand, plus}) =>
                 alignItems: "center",
                 justifyContent: "space-between",
                 gap: 70,
-                // border:"2px solid black"
             }}>
-                {/* 타입 라벨 */}
                 <div style={{
                     padding: 15,
                     width: "100%",
@@ -54,7 +49,6 @@ const SummaryGraph: React.FC<SummaryGraphProps> = ({type, lack, stand, plus}) =>
                     alignItems: 'center',
                     alignSelf: "flex-start",
                 }}>
-                    {/* 타입 이름 */}
                     <div style={{
                         textAlign: "center",
                         display: 'flex',
@@ -69,7 +63,6 @@ const SummaryGraph: React.FC<SummaryGraphProps> = ({type, lack, stand, plus}) =>
                     </div>
                 </div> 
 
-                {/* 더보기 > */}
                 <div
                 style={{
                     display:"inline-flex",
@@ -91,7 +84,6 @@ const SummaryGraph: React.FC<SummaryGraphProps> = ({type, lack, stand, plus}) =>
                 </div>
             </div>
 
-            {/* 그래프 박스 */}
             <div style={{
                 width:"220px",
                 height:"180px",
@@ -106,7 +98,6 @@ const SummaryGraph: React.FC<SummaryGraphProps> = ({type, lack, stand, plus}) =>
                 position:"relative",
                 overflow:"hidden"
                 }}>
-                {/* x축선 */}
                 <div style={{
                     position:"absolute",
                     bottom:51,
@@ -117,7 +108,6 @@ const SummaryGraph: React.FC<SummaryGraphProps> = ({type, lack, stand, plus}) =>
                     backgroundColor:"#EFF6FF",
                     borderRadius:2
                 }}/>
-                {/*막대 그래프 map*/}
                 {[
                     {label:"부족", value: lack, color:"#DB2777"},
                     {label:"적정", value: stand, color:"#BFDBFE"},
@@ -132,7 +122,6 @@ const SummaryGraph: React.FC<SummaryGraphProps> = ({type, lack, stand, plus}) =>
                             position:"relative"
                         }}
                     >
-                        {/*숫자 라벨*/}
                         <span style={{
                         position:"absolute",
                         bottom:`${animate ? (value/Math.max(lack, stand, plus,1))*100+50 : 50 }px`,
@@ -144,7 +133,6 @@ const SummaryGraph: React.FC<SummaryGraphProps> = ({type, lack, stand, plus}) =>
                             {value}
                         </span>
 
-                        {/* 막대그래프 */}
                         <div
                             style={{
                                 width:30,

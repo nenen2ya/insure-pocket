@@ -1,11 +1,11 @@
 import React from "react";
 
 interface ReportCardProps {
-  title: string;              // 파란색 제목 텍스트
-  width?: string;             // 카드 너비
-  height?: string;            // 카드 전체 높이
-  barheight?:string;          // 타이틀 바 높이
-  children?: React.ReactNode; // 내부 컨텐츠
+  title: string;
+  width?: string;
+  height?: string;
+  barheight?:string;
+  children?: React.ReactNode;
 }
 
 const ReportCard: React.FC<ReportCardProps> = ({
@@ -28,7 +28,6 @@ const ReportCard: React.FC<ReportCardProps> = ({
         flexDirection: "column",
       }}
     >
-      {/* 상단 파란색 타이틀 바 */}
       <div
         style={{
           backgroundColor: "#2563EB",
@@ -36,7 +35,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
           fontSize: 25,
           fontWeight: "bold",
           padding: "12px 20px",
-          height: barheight,                // 타이틀바 높이 고정
+          height: barheight,
           display: "flex",
           alignItems: "center",
         }}
@@ -44,7 +43,6 @@ const ReportCard: React.FC<ReportCardProps> = ({
         {title}
       </div>
 
-      {/* 내용 영역 */}
       <div
         style={{
           padding: 20,

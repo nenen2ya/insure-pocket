@@ -10,7 +10,7 @@ const SubReport: React.FC = () => {
   const [recommendProducts, setRecommendProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const categoryName = "암"; // 현재는 암 카테고리만 표시
+  const categoryName = "암";
   const categoryId = 1;
   const storedUserId = localStorage.getItem("user_id");
   const userId = storedUserId ? Number(storedUserId) : undefined;
@@ -24,7 +24,6 @@ const SubReport: React.FC = () => {
 
     const fetchData = async () => {
       try {
-        // 병렬 요청: 유저정보 + 암 리포트 데이터
         const [userRes, reportRes] = await Promise.all([
           fetch(`https://insure-pocket-back-1.onrender.com/users/${userId}`),
           fetch(`https://insure-pocket-back-1.onrender.com/reports/${userId}/${categoryId}`),
@@ -51,7 +50,6 @@ const SubReport: React.FC = () => {
 
   return (
     <div style={{ textAlign: "center", marginTop: "100px" }}>
-      {/* ✅ 상단 타이틀 */}
       <div
         style={{
           display: "flex",
@@ -64,8 +62,6 @@ const SubReport: React.FC = () => {
         <h2 style={{ color: "#2563EB", fontSize: 45 }}>{categoryName}</h2>
         <h2 style={{ fontSize: 40 }}>보험 세부 분석 리포트</h2>
       </div>
-
-      {/* ✅ 세부 분석 카드 */}
       <div
         style={{
           display: "flex",
@@ -100,8 +96,6 @@ const SubReport: React.FC = () => {
             ))}
           </div>
         </ReportCard>
-
-        {/* ✅ 추천 상품 */}
         <ReportCard title="맞춤형 상품 추천" width="980px" height="100%">
           {recommendProducts.map((productObj: any) => {
             const p = productObj.product_info;
@@ -120,12 +114,10 @@ const SubReport: React.FC = () => {
                 { keyword: p.keyword3, summary: p.summary3 },
               ]}
               selected={false}
-              userId={userId} // 로그인한 사용자 id
-              productId={p.id} // 상품 id
-              apiUrl="https://insure-pocket-back-1.onrender.com/pockets" // FastAPI 주소
-            />
-
-                        );
+              userId={userId}
+              productId={p.id}
+              apiUrl="https://insure-pocket-back-1.onrender.com/pockets"
+            />                        );
           })}
         </ReportCard>
       </div>

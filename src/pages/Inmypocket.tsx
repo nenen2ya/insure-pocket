@@ -48,7 +48,7 @@ const Inmypocket:React.FC = () => {
     const fetchPocketData = async () => {
         try {
         if (!user?.id) {
-            console.warn("❗ 아직 user.id를 불러오지 못했습니다.");
+            console.warn("아직 user.id를 불러오지 못했습니다.");
             return;
         }
 
@@ -66,7 +66,6 @@ const Inmypocket:React.FC = () => {
         }
     };
 
-    // ✅ user.id가 생겼을 때만 fetch 실행
     useEffect(() => {
         if (user?.id) {
         fetchPocketData();
@@ -105,7 +104,6 @@ const Inmypocket:React.FC = () => {
                     height:"61px",
                     position:"relative"
                 }}>
-                    {/*보험사탭*/}
                     <div onClick={() => setActiveTab("보험사")} style={{
                         width:"488.5px",
                         height:"100%",
@@ -135,7 +133,6 @@ const Inmypocket:React.FC = () => {
                         </div>
                     </div>
 
-                    {/*보장영역탭*/}
                     <div onClick={() => setActiveTab("보장영역")} style={{
                         width:"488.5px",
                         height:"100%",
@@ -169,25 +166,20 @@ const Inmypocket:React.FC = () => {
 
             <div style={{
                 marginTop:"78px", 
-                // border:"2px solid black"
                 }}>
-                {/*리포트 카드 전체*/}
                 <ReportCard 
                 title={`총 ${(data.length)}개`} 
                 width="977px" 
                 height="auto"
                 >
-                    {/* [ 보험사 + 보장영역 ] transition 범위 */}
                     <div style={{
                         overflow:"hidden", 
                         width:"100%", 
                         }}>
-                        {/* 보험사 눌렀을 때 */}
                         <div style={{
                             display:"flex",
                             flexDirection:"column",
                         }}>
-                            {/*보험사-보장영역 구분*/}
                             <div style ={{
                                 width:"100%",
                                 flexShrink:0,
@@ -198,8 +190,7 @@ const Inmypocket:React.FC = () => {
                                         key={i}
                                         std={true}
                                         std_content={item.products?.companies?.company_name ?? "회사명 없음"}
-                                    >
-                                        
+                                    >                                        
                                     <RecommendCard
                                     key={i}
                                     imgSrc={companyImgs[item.products?.companies?.company_name ?? ""] || defaultCompanyImg}
@@ -223,15 +214,13 @@ const Inmypocket:React.FC = () => {
                                     },
                                     ]}
                                     selected={true}
-                                    userId={user.id} // ✅ 추가
-                                    productId={item.products.id} // ✅ 추가
+                                    userId={user.id}
+                                    productId={item.products.id}
                                     width="800px"
-                                    />
-                                        
+                                    />                                        
                                     </PocketBar>
                                     ))
                                 : (() => {
-                                    // ✅ 1) grouped 타입 명시
                                     type Coverage = {
                                         subcategories?: { name?: string; categories?: { type?: string } };
                                     };
@@ -249,7 +238,6 @@ const Inmypocket:React.FC = () => {
                                     const grouped: Record<string, PocketItem[]> = {};
 
                                     data.forEach((item: PocketItem) => {
-                                        // ✅ 2) Set<string>로 명시 + 변수명 cat
                                         const uniqueTypes: Set<string> = new Set(
                                         (item.products?.coverage ?? []).map(
                                             (cov: Coverage) => cov?.subcategories?.categories?.type ?? "기타"
@@ -258,8 +246,6 @@ const Inmypocket:React.FC = () => {
 
                                         uniqueTypes.forEach((cat: string) => {
                                         if (!grouped[cat]) grouped[cat] = [];
-
-                                        // ✅ 3) 같은 상품 중복 방지
                                         const alreadyExists = grouped[cat].some(
                                             (i) => i.products?.id === item.products?.id
                                         );

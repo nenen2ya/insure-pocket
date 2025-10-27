@@ -9,13 +9,11 @@ const Myinsur: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const userId = localStorage.getItem("user_id"); // ✅ 로그인 시 저장된 유저 id 사용
+    const userId = localStorage.getItem("user_id");
     if (!userId) {
       alert("로그인이 필요합니다.");
       return;
     }
-
-    // ✅ 백엔드에서 데이터 가져오기
     const fetchData = async () => {
       try {
         const response = await fetch(`https://insure-pocket-back-1.onrender.com/products/${userId}`);

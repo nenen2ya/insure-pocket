@@ -37,8 +37,8 @@ function MyCheck({checked=false}: {checked?:boolean}) {
 }
 
 interface PocketBarProps {
-    std: boolean; //true:보험사|false:보장영역
-    std_content: string; //분류별 내용
+    std: boolean;
+    std_content: string;
     width?: string;
     height?: string;
     children?: React.ReactNode;

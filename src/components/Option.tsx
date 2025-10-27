@@ -4,7 +4,7 @@ import info from "../assets/img/info.png"
 interface ButtonProps {
   text: string;
   onClick?: () => void;
-  showTooltip?: boolean; // ✅ 4번째 질문일 때만 true로 전달
+  showTooltip?: boolean;
 }
 
 const getTooltipText = (label: string) => {
@@ -32,10 +32,9 @@ const Option: React.FC<ButtonProps> = ({ text, onClick, showTooltip }) => {
       style={{
         position: "relative",
         display: "inline-block",
-        width: "100%", // 버튼과 동일 정렬
+        width: "100%",
       }}
     >
-      {/* ✅ 원래 버튼 디자인 그대로 */}
       <button
         onClick={onClick}
         style={{
@@ -56,14 +55,13 @@ const Option: React.FC<ButtonProps> = ({ text, onClick, showTooltip }) => {
         {text}
       </button>
 
-      {/* ✅ 4번째 질문일 때만 ? 아이콘 표시 */}
       {showTooltip && (
         <div
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           style={{
             position: "absolute",
-            top: 20, // 버튼 내부 오른쪽 위
+            top: 20,
             right: 30,
             cursor: "pointer",
           }}
@@ -77,7 +75,6 @@ const Option: React.FC<ButtonProps> = ({ text, onClick, showTooltip }) => {
             }}
           />
 
-          {/* ✅ 툴팁 */}
           {hovered && (
             <div
               style={{

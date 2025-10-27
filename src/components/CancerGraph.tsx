@@ -32,7 +32,6 @@ const CancerGraph: React.FC<CancerGraphProps> = ({
             alignItems:"center",
             }}>
 
-{/* 바 영역 박스 */}
 <div style={{ 
     width: 745.49, 
     height: 70, 
@@ -42,11 +41,10 @@ const CancerGraph: React.FC<CancerGraphProps> = ({
     display:"flex", 
     alignItems:"center", 
     border: '1px #2563EB solid',
-    overflow:"visible",  // ✅ hidden → visible로 변경 (텍스트가 밖으로 나와야 함)
+    overflow:"visible",
     borderRadius:30
     }}>
 
-    {/* 값/라벨/바 */}
     <div style={{ 
         width: "100%", 
         height: 43.51, 
@@ -61,19 +59,17 @@ const CancerGraph: React.FC<CancerGraphProps> = ({
             width:"100%",
             height:"100%",
         }}>
-            {/* y축 */}
             <div style={{
             position: "absolute",
             width: 4, 
             height: 70, 
             left: "50%",
             top:"50%",
-            transform:"translate(-50%, -50%)",  // ✅ X축도 중앙 정렬
+            transform:"translate(-50%, -50%)",
             background:"#2563EB",
             opacity:"0.2"
             }}
             />
-
             <div
             style={{
                 position: "absolute",
@@ -89,7 +85,6 @@ const CancerGraph: React.FC<CancerGraphProps> = ({
                 borderBottomRightRadius: 20,
                 transition: "width 1.2s ease"
             }}>
-                {/* 보장금액 */}
                 <div
                     style={{
                         position: 'absolute',
@@ -106,28 +101,23 @@ const CancerGraph: React.FC<CancerGraphProps> = ({
                     {coverage_amount!==0 && `${coverage_amount.toLocaleString()}만 원`}
                 </div>
             </div>
-            
-            {/* 권장금액 - y축 아래 중앙 */}
             <div
             style={{
                 position: 'absolute',
-                left: "50%",  // ✅ 중앙 정렬
-                transform: "translateX(-50%)",  // ✅ 정확한 중앙
-                top: "calc(100% + 15px)",  // ✅ 바 아래쪽에 위치
+                left: "50%",
+                transform: "translateX(-50%)",
+                top: "calc(100% + 15px)",
                 textAlign: 'center',
                 fontSize: 11,
                 fontWeight: 700,
                 whiteSpace: "nowrap",
             }}
             > 
-                권장 금액 {(Math.round(recommended_coverage / 100) * 100).toLocaleString()
-}만 원
+                권장 금액 {(Math.round(recommended_coverage / 100) * 100).toLocaleString()}만 원
             </div>
         </div>
     </div>
-        </div>
-
-        {/* 좌측 라벨 박스 */}
+</div>
         <div
             style={{
             width: 148,
@@ -160,8 +150,8 @@ const CancerGraph: React.FC<CancerGraphProps> = ({
             {subtype}
             </div>
         </div>
-        </div>
+    </div>
     );
-    };
+};
 
 export default CancerGraph;
