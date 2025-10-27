@@ -7,6 +7,7 @@ import InsuranceCard from "../components/InsuranceCard";
 import { supabase } from "../lib/supabaseClient";
 import { useUser } from "../context/UserContext";
 import { companyImgs, defaultCompanyImg } from "../data/company_img";
+import { axiosClient } from "../lib/axiosClient";
 
 const Diagnose: React.FC = () => {
   const navigate = useNavigate();
@@ -69,27 +70,26 @@ const Diagnose: React.FC = () => {
   ];
 
   
-  const fetchInsuranceData = async () => {
-    if (!user?.id) return;
-    setLoading(true);
+const fetchInsuranceData = async () => {
+  if (!user?.id) return;
+  setLoading(true);
 
-    try {
-    const response = await fetch(
-      `https://insure-pocket-back-1.onrender.com/products/${user.id}`
-    );
-
-    if (!response.ok) {
-      throw new Error("서버 응답 오류");
-    }
-
-    const result = await response.json();
-    setInsuranceList(result.user_products || []);
-  } catch (error) {
+  try {
+    const res = await axiosClient.get(`/products/${user.id}`);
+    setInsuranceList(res.data.user_products || []);
+  } catch (error: any) {
     console.error("보험정보 불러오기 실패:", error);
+
+    const errMsg =
+      error.response?.data?.detail ||
+      error.message ||
+      "보험정보를 불러오는 중 오류가 발생했습니다.";
+    alert(errMsg);
+
   } finally {
     setLoading(false);
   }
-  };
+};
 
   console.log("현재 유저:", user);
 

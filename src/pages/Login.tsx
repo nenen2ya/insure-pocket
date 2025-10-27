@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
+import { axiosClient } from "../lib/axiosClient";
 
 const Login: React.FC = () => {
   const [nickname, setNickname] = useState("");
@@ -8,30 +9,33 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const { setUser } = useUser();
 
-  const handleLogin = async () => {
-    try {
-      const res = await fetch("https://insure-pocket-back-1.onrender.com/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nickname, password }),
-      });
 
-      const data = await res.json();
-      if (!res.ok) {
-        alert(data.detail || "로그인 실패");
-        return;
-      }
+const handleLogin = async () => {
+  try {
+    const res = await axiosClient.post("/auth/login", {
+      nickname,
+      password,
+    });
 
-      alert(`${data.nickname}님 환영합니다!`);
-      localStorage.setItem("user", JSON.stringify(data));
-      localStorage.setItem("user_id", data.id.toString());
-      setUser(data);
-      navigate(`/home/${data.id}`);
-    } catch (error) {
-      alert("서버와 연결에 실패했습니다.");
-      console.error(error);
-    }
-  };
+    const data = res.data;
+
+    alert(`${data.nickname}님 환영합니다!`);
+    localStorage.setItem("user", JSON.stringify(data));
+    localStorage.setItem("user_id", data.id.toString());
+    setUser(data);
+    navigate(`/home/${data.id}`);
+
+  } catch (error: any) {
+    console.error("로그인 실패:", error);
+
+    const errMsg =
+      error.response?.data?.detail ||
+      error.message ||
+      "서버와 연결에 실패했습니다.";
+
+    alert(errMsg);
+  }
+};
 
   return (
     <div

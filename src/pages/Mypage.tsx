@@ -5,6 +5,7 @@ import vectorwhite from "../assets/img/vectorwhite.png"
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { useEffect, useState } from "react";
+//import { axiosClient } from "../lib/axiosClient";
 
 const MpCard = styled.div`
   border-bottom-right-radius: 20px;
@@ -64,6 +65,7 @@ const Mypage: React.FC = () => {
   const { user_id } = useParams();
   const [user, setUser] = useState<any>(null);
 
+  //이건 왜인지 모르겠지만 axios보다 fetch가 훨씬 빠른 것 같아요
   useEffect(() => {
     const fetchUser = async () => {
       const { data, error } = await supabase
@@ -81,6 +83,19 @@ const Mypage: React.FC = () => {
 
     if (user_id) fetchUser();
   }, [user_id]);
+
+// useEffect(() => {
+//   const fetchUser = async () => {
+//     try {
+//       const res = await axiosClient.get(`/users/${user_id}`);
+//       setUser(res.data);
+//     } catch (error: any) {
+//       console.error("유저 정보 불러오기 실패:", error);
+//     }
+//   };
+
+//   fetchUser();
+// }, [user_id]);
 
   return (
     <div style={{

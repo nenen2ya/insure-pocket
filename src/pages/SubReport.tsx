@@ -3,6 +3,8 @@ import ReportCard from "../components/ReportCard";
 import RecommendCard from "../components/RecommendCard";
 import CancerGraph from "../components/CancerGraph";
 import { companyImgs, defaultCompanyImg } from "../data/company_img";
+import { axiosClient } from "../lib/axiosClient";
+
 
 const SubReport: React.FC = () => {
   const [userName, setUserName] = useState<string>("");
@@ -15,35 +17,35 @@ const SubReport: React.FC = () => {
   const storedUserId = localStorage.getItem("user_id");
   const userId = storedUserId ? Number(storedUserId) : undefined;
 
-  useEffect(() => {
-    const userId = localStorage.getItem("user_id");
-    if (!userId) {
-      alert("로그인이 필요합니다.");
-      return;
+useEffect(() => {
+  const userId = localStorage.getItem("user_id");
+  if (!userId) {
+    alert("로그인이 필요합니다.");
+    return;
+  }
+
+  const fetchData = async () => {
+    try {
+      const [userRes, reportRes] = await Promise.all([
+        axiosClient.get(`/users/${userId}`),
+        axiosClient.get(`/reports/${userId}/${categoryId}`),
+      ]);
+
+      const userData = userRes.data;
+      const reportData = reportRes.data;
+
+      setUserName(userData.user.user_name);
+      setCategoryCompare(reportData.categories_compare || []);
+      setRecommendProducts(reportData.products_recommendation || []);
+    } catch (error) {
+      console.error("데이터 로드 실패:", error);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const fetchData = async () => {
-      try {
-        const [userRes, reportRes] = await Promise.all([
-          fetch(`https://insure-pocket-back-1.onrender.com/users/${userId}`),
-          fetch(`https://insure-pocket-back-1.onrender.com/reports/${userId}/${categoryId}`),
-        ]);
-
-        const userData = await userRes.json();
-        const reportData = await reportRes.json();
-
-        setUserName(userData.user.user_name);
-        setCategoryCompare(reportData.categories_compare || []);
-        setRecommendProducts(reportData.products_recommendation || []);
-      } catch (error) {
-        console.error("데이터 로드 실패:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  fetchData();
+}, []);
 
   if (loading)
     return <div style={{ paddingTop: "120px" }}>⏳ 데이터를 불러오는 중입니다...</div>;

@@ -4,6 +4,7 @@ import PocketBar from '../components/PocketBar';
 import RecommendCard from '../components/RecommendCard';
 import { useUser } from "../context/UserContext";
 import { companyImgs, defaultCompanyImg } from "../data/company_img";
+import { axiosClient } from "../lib/axiosClient";
 
 const Inmypocket:React.FC = () => {
     const { user } = useUser();
@@ -46,24 +47,25 @@ const Inmypocket:React.FC = () => {
     }
 
     const fetchPocketData = async () => {
-        try {
+    try {
         if (!user?.id) {
-            console.warn("아직 user.id를 불러오지 못했습니다.");
-            return;
+        console.warn("아직 user.id를 불러오지 못했습니다.");
+        return;
         }
-
-        const response = await fetch(
-            `https://insure-pocket-back-1.onrender.com/pockets/${user.id}`
-        );
-        if (!response.ok) throw new Error("서버 응답 오류");
-
-        const result = await response.json();
-        setData(result);
-        } catch (error) {
+        const res = await axiosClient.get(`/pockets/${user.id}`);
+        setData(res.data);
+    } catch (error: any) {
         console.error("데이터 불러오기 실패:", error);
-        } finally {
+
+        const errMsg =
+        error.response?.data?.detail ||
+        error.message ||
+        "포켓 데이터를 불러오는 중 오류가 발생했습니다.";
+        alert(errMsg);
+
+    } finally {
         setLoading(false);
-        }
+    }
     };
 
     useEffect(() => {

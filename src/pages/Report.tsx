@@ -5,6 +5,8 @@ import SummaryGraph from "../components/SummaryGraph";
 
 import { ReportData } from "../data/report_data";
 import { companyImgs, defaultCompanyImg } from "../data/company_img";
+import { axiosClient } from "../lib/axiosClient";
+
 
 const Report: React.FC = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
@@ -19,39 +21,39 @@ const Report: React.FC = () => {
       return;
     }
 
-    const fetchData = async () => {
-      try {
-        const [userRes, reportRes] = await Promise.all([
-          fetch(`https://insure-pocket-back-1.onrender.com/users/${userId}`),
-          fetch(`https://insure-pocket-back-1.onrender.com/reports/${userId}`)
-        ]);
+  const fetchData = async () => {
+    try {
+      const [userRes, reportRes] = await Promise.all([
+        axiosClient.get(`/users/${userId}`),
+        axiosClient.get(`/reports/${userId}`)
+      ]);
 
-        const userData = await userRes.json();
-        const reportData = await reportRes.json();
+      const userData = userRes.data;
+      const reportData = reportRes.data;
 
-        const fullCategory = ReportData.category_type.map(cat => 
-          cat.category_id === 1
-            ? { ...cat, lack: reportData.lack, stand: reportData.stand, plus: reportData.plus }
-            : cat
-        );
+      const fullCategory = ReportData.category_type.map(cat =>
+        cat.category_id === 1
+          ? { ...cat, lack: reportData.lack, stand: reportData.stand, plus: reportData.plus }
+          : cat
+      );
 
-        setUserInfo(userData.user);
-        setReport({
-          ...reportData,
-          category_type: fullCategory,
-          total_comment: ReportData.total_comment,
-          premium_avg: ReportData.premium_avg
-        });
-      } catch (err) {
-        console.error("데이터 로드 실패:", err);
-      } finally {
-        setLoading(false);
-        setTimeout(() => setAnimate(true), 300);
-      }
-    };
+      setUserInfo(userData.user);
+      setReport({
+        ...reportData,
+        category_type: fullCategory,
+        total_comment: ReportData.total_comment,
+        premium_avg: ReportData.premium_avg
+      });
+    } catch (err) {
+      console.error("데이터 로드 실패:", err);
+    } finally {
+      setLoading(false);
+      setTimeout(() => setAnimate(true), 300);
+    }
+  };
 
-    fetchData();
-  }, []);
+  fetchData();
+}, []);
 
   if (loading || !userInfo || !report)
     return <div style={{ paddingTop: "120px" }}>⏳ 데이터를 불러오는 중입니다...</div>;

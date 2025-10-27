@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import vector from "../assets/img/vector.png";
 import Button from "../components/Button";
+import { axiosClient } from "../lib/axiosClient";
 
 function MyToggle({ rotated = false }: { rotated?: boolean }) {
   return (
@@ -42,7 +43,6 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
   selected,
   userId,
   productId,
-  apiUrl="https://insure-pocket-back-1.onrender.com/pockets"
 }) => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,74 +60,57 @@ const handleAddToPocket = async () => {
   try {
     setIsLoading(true);
 
-    const response = await fetch(`${apiUrl}/${userId}/${productId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await axiosClient.post(`/pockets/${userId}/${productId}`);
 
-    if (!response.ok) {
-      const errorBody = await response.json().catch(() => null);
-      console.error("Error response body:", errorBody);
-      alert(errorBody?.detail || `오류 발생: ${response.status}`);
-      return;
-    }
-
-    const result = await response.json();
-    alert(result.message || "포켓에 담았습니다!");
+    alert(res.data?.message || "포켓에 담았습니다!");
 
     if (moveToPocket) {
       window.location.href = "/inmypocket";
     }
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("서버 요청 중 예외 발생:", error);
-    alert("서버 요청 중 오류가 발생했습니다.");
+
+    const errMsg =
+      error.response?.data?.detail ||
+      error.message ||
+      "서버 요청 중 오류가 발생했습니다.";
+
+    alert(errMsg);
   } finally {
     setIsLoading(false);
   }
 };
 
 
-    const handleRemoveFromPocket = async () => {
-    console.log("🧩 handleRemoveFromPocket 실행됨!", userId, productId);
+const handleRemoveFromPocket = async () => {
+  if (!userId || !productId) {
+    alert("사용자 정보가 누락되었습니다.");
+    return;
+  }
 
-    if (!userId || !productId) {
-        alert("사용자 정보가 누락되었습니다.");
-        return;
-    }
+  const confirmRemove = window.confirm("해당 상품을 인마이포켓에서 뺄까요?");
+  if (!confirmRemove) return;
 
-    const confirmRemove = window.confirm("해당 상품을 인마이포켓에서 뺄까요?");
-    if (!confirmRemove) return;
+  try {
+    setIsLoading(true);
+    const res = await axiosClient.delete(`/pockets/${userId}/${productId}`);
+    alert(res.data?.message || "포켓에서 삭제되었습니다!");
+    window.location.reload();
 
-    try {
-        setIsLoading(true);
+  } catch (error: any) {
+    console.error("서버 요청 중 예외 발생:", error);
 
-        const response = await fetch(`${apiUrl}/${userId}/${productId}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        });
+    const errMsg =
+      error.response?.data?.detail ||
+      error.message ||
+      "서버 요청 중 오류가 발생했습니다.";
 
-        if (!response.ok) {
-        const errorBody = await response.json().catch(() => null);
-        console.error("Error response body:", errorBody);
-        alert(errorBody?.detail || `오류 발생: ${response.status}`);
-        return;
-        }
-
-        const result = await response.json();
-        alert(result.message || "포켓에서 삭제되었습니다!");
-        window.location.reload();
-    } catch (error) {
-        console.error("서버 요청 중 예외 발생:", error);
-        alert("서버 요청 중 오류가 발생했습니다.");
-    } finally {
-        setIsLoading(false);
-    }
-    };
+    alert(errMsg);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <div

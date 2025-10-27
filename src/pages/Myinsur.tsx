@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReportCard from "../components/ReportCard";
 import MyPageCard from "../components/MyPageCard";
 import { companyImgs, defaultCompanyImg } from "../data/company_img";
+import { axiosClient } from "../lib/axiosClient";
 
 
 const Myinsur: React.FC = () => {
@@ -14,20 +15,22 @@ const Myinsur: React.FC = () => {
       alert("로그인이 필요합니다.");
       return;
     }
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`https://insure-pocket-back-1.onrender.com/products/${userId}`);
-        if (!response.ok) {
-          throw new Error("서버 응답 오류");
-        }
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error("데이터 불러오기 실패:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+const fetchData = async () => {
+  try {
+    const res = await axiosClient.get(`/products/${userId}`);
+    setData(res.data);
+  } catch (error: any) {
+    console.error("데이터 불러오기 실패:", error);
+
+    const errMsg =
+      error.response?.data?.detail ||
+      error.message ||
+      "데이터를 불러오는 중 오류가 발생했습니다.";
+    alert(errMsg);
+  } finally {
+    setLoading(false);
+  }
+};
 
     fetchData();
   }, []);
