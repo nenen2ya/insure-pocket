@@ -6,18 +6,21 @@ interface CancerGraphProps {
     subtype: string;
     recommended_coverage: number;
     coverage_amount: number;
+    state : string;
 }
 
 const CancerGraph: React.FC<CancerGraphProps> = ({ 
     subtype,
     recommended_coverage,
-    coverage_amount 
+    coverage_amount ,
+    state,
 }) => {
     // const data = dummyCancerData;
     const [animate, setAnimate] = useState(false);
     useEffect(() => {
         const timer = setTimeout(() => setAnimate(true), 300);
         return() => clearTimeout(timer);},[]);
+console.log("state 값 확인:", JSON.stringify(state));
 
     
     return (
@@ -42,7 +45,7 @@ const CancerGraph: React.FC<CancerGraphProps> = ({
     alignItems:"center", 
     border: '1px #2563EB solid',
     overflow:"visible",
-    borderRadius:30
+    borderRadius:30,
     }}>
 
     <div style={{ 
@@ -75,11 +78,15 @@ const CancerGraph: React.FC<CancerGraphProps> = ({
                 position: "absolute",
                 left: 0,
                 marginLeft:"0px",
-                width: animate ? `${((coverage_amount)/(recommended_coverage*2))*100}%`: '0%',
+                width: animate ? `${Math.min(
+          (coverage_amount / (recommended_coverage * 2)) * 100,
+          100
+        )}%`
+      : "0%",
                 height: 30,
                 top: "50%",
                 transform:"translateY(-50%)",
-                background: recommended_coverage<coverage_amount? '#1E3A8A':"#BE185D",
+                background: state === "적정"?  '#1E3A8A':"#BE185D",
                 boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
                 borderTopRightRadius: 20,
                 borderBottomRightRadius: 20,
@@ -96,7 +103,7 @@ const CancerGraph: React.FC<CancerGraphProps> = ({
                         fontWeight: 400,
                         whiteSpace: "nowrap",
                         textShadow: "0 0 4px rgba(0,0,0,0.4)",
-                        transition:"left 0.3s ease"
+                        transition:"left 0.3s ease",
                     }}>
                     {coverage_amount!==0 && `${coverage_amount.toLocaleString()}만 원`}
                 </div>

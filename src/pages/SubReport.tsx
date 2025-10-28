@@ -4,12 +4,13 @@ import RecommendCard from "../components/RecommendCard";
 import CancerGraph from "../components/CancerGraph";
 import { companyImgs, defaultCompanyImg } from "../data/company_img";
 import { axiosClient } from "../lib/axiosClient";
-
+import info from "../assets/img/info.png";
 
 const SubReport: React.FC = () => {
   const [userName, setUserName] = useState<string>("");
   const [categoryCompare, setCategoryCompare] = useState<any[]>([]);
   const [recommendProducts, setRecommendProducts] = useState<any[]>([]);
+  const [hovered, setHovered] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const categoryName = "암";
@@ -58,12 +59,90 @@ useEffect(() => {
           flexDirection: "row",
           alignItems: "baseline",
           gap: 10,
+          height: "fit-content",
+          padding: "0 10px", 
         }}
       >
         <h2 style={{ fontSize: 40 }}>{userName}님</h2>
         <h2 style={{ color: "#2563EB", fontSize: 45 }}>{categoryName}</h2>
         <h2 style={{ fontSize: 40 }}>보험 세부 분석 리포트</h2>
       </div>
+  <div style={{
+    display:'flex',
+    flexDirection:"column",
+    alignItems:"flex-start",
+    marginBottom:20,
+    marginLeft:10
+  }}>
+  <p
+    style={{
+      fontSize: "24px",
+      color: "#1E3A8A",
+      margin: 0,
+      marginBottom: "8px",
+      fontWeight: "600",
+      lineHeight: "1.6",
+    }}
+  >
+    가입된 보험과 진단 내용을 기반으로 분석한 결과입니다.
+  </p>
+<div
+  style={{
+    display: "flex",
+    gap: 6,
+    position: "relative",
+    alignItems: "baseline",
+  }}
+>
+  <p
+    style={{
+      fontSize: "14px",
+      color: "#1E3A8A",
+      margin: 0,
+      marginBottom: "8px",
+      fontWeight: "400",
+      lineHeight: "1.6",
+    }}
+  >
+    *권장금액 : 연령, 성별 및 진단 결과를 기준으로 산출한 권장 보장 금액입니다.
+  </p>
+  <div
+    onMouseEnter={() => setHovered(true)}
+    onMouseLeave={() => setHovered(false)}
+    style={{
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      position: "relative",
+    }}
+  >
+    <img src={info} alt="info" style={{ width: 16, height: 16 }} />
+
+    {hovered && (
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "120%",
+          transform: "translateY(-50%)",
+          width: 260,
+          backgroundColor: "rgba(0,0,0,0.85)",
+          color: "white",
+          borderRadius: 8,
+          padding: "8px 12px",
+          fontSize: 12,
+          lineHeight: 1.5,
+          whiteSpace: "normal",
+          zIndex: 999,
+        }}
+      >
+        부족 - 권장 금액의 -20% 미만<br/>적정 - 권장 금액의 ±20% 이내<br/>여유 - 권장 금액의 +20% 초과
+      </div>
+    )}
+  </div>
+</div>
+</div>
+
       <div
         style={{
           display: "flex",
@@ -76,7 +155,6 @@ useEffect(() => {
           title={`${categoryName} 세부 종류별 보장금액 현황`}
           width="100%"
           height="fit-content"
-          showTooltip = {true}
         >
           <div
             style={{
@@ -95,6 +173,7 @@ useEffect(() => {
                 subtype={item.category}
                 recommended_coverage={item.recommend ?? 0}
                 coverage_amount={item.current ?? 0}
+                state = {item.state??0}
               />
             ))}
           </div>
