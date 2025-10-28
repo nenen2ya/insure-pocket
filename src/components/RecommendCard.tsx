@@ -71,12 +71,12 @@ const handleAddToPocket = async () => {
   } catch (error: any) {
     console.error("서버 요청 중 예외 발생:", error);
 
-    const errMsg =
-      error.response?.data?.detail ||
-      error.message ||
-      "서버 요청 중 오류가 발생했습니다.";
+    // const errMsg =
+    //   error.response?.data?.detail ||
+    //   error.message ||
+    //   "서버 요청 중 오류가 발생했습니다.";
 
-    alert(errMsg);
+    // alert(errMsg);
   } finally {
     setIsLoading(false);
   }
