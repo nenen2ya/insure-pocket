@@ -43,9 +43,9 @@ export const ReportData={
         {
             category_id: 2,
             category_name:"뇌",
-            lack: 5,
-            stand: 10,
-            plus: 15
+            lack: 1,
+            stand: 2,
+            plus: 4
         },
         {
             category_id: 3,

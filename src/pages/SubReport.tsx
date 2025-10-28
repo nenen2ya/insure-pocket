@@ -76,6 +76,7 @@ useEffect(() => {
           title={`${categoryName} 세부 종류별 보장금액 현황`}
           width="100%"
           height="fit-content"
+          showTooltip = {true}
         >
           <div
             style={{

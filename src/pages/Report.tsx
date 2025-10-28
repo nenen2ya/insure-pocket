@@ -78,35 +78,34 @@ const Report: React.FC = () => {
         <h2 style={{ color: "#2563EB", fontSize: 45 }}>종합 분석</h2>
         <h2 style={{ fontSize: 40 }}>리포트</h2>
       </div>
-
       <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
         <div style={{ display: "flex", flexDirection: "row", gap: "20px", justifyContent: "center" }}>
-<ReportCard title={`내 보험 ${report.products.length}개`}>
-  <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 10,
-      maxHeight: "300px",
-      overflowY: "auto",
-      paddingRight: "10px",
-    }}
-  >
-    {report.products.map((item: any) => (
-      <InsuranceCard
-        key={item.product_id}
-        imgSrc={
-          companyImgs[item.products.companies.company_name] || defaultCompanyImg
-        }
-        title={item.products.product_name}
-        price={item.products.monthly_premium.toLocaleString()}
-        width="400px"
-        height="84px"
-      />
-    ))}
-  </div>
-</ReportCard>
+          <ReportCard title={`내 보험 ${report.products.length}개`}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 10,
+                maxHeight: "300px",
+                overflowY: "auto",
+                paddingRight: "10px",
+              }}
+            >
+              {report.products.map((item: any) => (
+                <InsuranceCard
+                  key={item.product_id}
+                  imgSrc={
+                    companyImgs[item.products.companies.company_name] || defaultCompanyImg
+                  }
+                  title={item.products.product_name}
+                  price={item.products.monthly_premium.toLocaleString()}
+                  width="400px"
+                  height="84px"
+                />
+              ))}
+            </div>
+          </ReportCard>
 
           <ReportCard title="월 보험료">
             <div
