@@ -89,7 +89,8 @@ const handleRemoveFromPocket = async () => {
     setIsLoading(true);
     const res = await axiosClient.delete(`/pockets/${userId}/${productId}`);
     alert(res.data?.message || "포켓에서 삭제되었습니다!");
-    navigate("/inmypocket");
+navigate("/", { replace: true });
+setTimeout(() => navigate("/inmypocket", { replace: true }), 50);
   } catch (error: any) {
     console.error("서버 요청 중 예외 발생:", error);
 

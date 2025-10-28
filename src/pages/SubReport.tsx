@@ -119,7 +119,7 @@ useEffect(() => {
               selected={false}
               userId={userId}
               productId={p.id}
-              apiUrl="https://insure-pocket-back-1.onrender.com/pockets"
+              apiUrl="https://insure-pocket-back.onrender.com/pockets"
             />                        );
           })}
         </ReportCard>
