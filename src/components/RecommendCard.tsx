@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import vector from "../assets/img/vector.png";
 import Button from "../components/Button";
 import { axiosClient } from "../lib/axiosClient";
+import { useNavigate } from "react-router-dom";
+
 
 function MyToggle({ rotated = false }: { rotated?: boolean }) {
   return (
@@ -33,6 +35,8 @@ interface RecommendCardProps {
   apiUrl?: string;
 }
 
+const navigate = useNavigate();
+
 const RecommendCard: React.FC<RecommendCardProps> = ({
   imgSrc,
   title,
@@ -56,27 +60,17 @@ const handleAddToPocket = async () => {
   }
 
   const moveToPocket = window.confirm("인마이포켓으로 이동할까요?");
-
   try {
     setIsLoading(true);
-
     const res = await axiosClient.post(`/pockets/${userId}/${productId}`);
-
     alert(res.data?.message || "포켓에 담았습니다!");
 
     if (moveToPocket) {
-      window.location.href = "/inmypocket";
+      navigate("/inmypocket");
     }
-
   } catch (error: any) {
     console.error("서버 요청 중 예외 발생:", error);
-
-    const errMsg =
-      error.response?.data?.detail ||
-      error.message ||
-      "서버 요청 중 오류가 발생했습니다.";
-
-    alert(errMsg);
+    alert(error.response?.data?.detail || "서버 요청 중 오류가 발생했습니다.");
   } finally {
     setIsLoading(false);
   }
@@ -96,8 +90,7 @@ const handleRemoveFromPocket = async () => {
     setIsLoading(true);
     const res = await axiosClient.delete(`/pockets/${userId}/${productId}`);
     alert(res.data?.message || "포켓에서 삭제되었습니다!");
-    window.location.reload();
-
+    navigate("/inmypocket");
   } catch (error: any) {
     console.error("서버 요청 중 예외 발생:", error);
 
