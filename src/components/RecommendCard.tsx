@@ -89,9 +89,19 @@ const handleRemoveFromPocket = async () => {
     setIsLoading(true);
     const res = await axiosClient.delete(`/pockets/${userId}/${productId}`);
     alert(res.data?.message || "포켓에서 삭제되었습니다!");
-    window.location.reload(); // ✅ 실제 새로고침 (데이터 완전 갱신)
+navigate("/", { replace: true });
+setTimeout(() => navigate("/inmypocket", { replace: true }), 50);
   } catch (error: any) {
     console.error("서버 요청 중 예외 발생:", error);
+
+    const errMsg =
+      error.response?.data?.detail ||
+      error.message ||
+      "서버 요청 중 오류가 발생했습니다.";
+
+    alert(errMsg);
+  } finally {
+    setIsLoading(false);
   }
 };
 
