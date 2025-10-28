@@ -35,8 +35,6 @@ interface RecommendCardProps {
   apiUrl?: string;
 }
 
-const navigate = useNavigate();
-
 const RecommendCard: React.FC<RecommendCardProps> = ({
   imgSrc,
   title,
@@ -50,6 +48,7 @@ const RecommendCard: React.FC<RecommendCardProps> = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const toggle = () => setOpen(!open);
 
